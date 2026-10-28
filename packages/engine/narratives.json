@@ -1,0 +1,15 @@
+{
+  "vocabulary": [
+    "privacy",
+    "robinhood_chain",
+    "ai_agents",
+    "memecoin_meta",
+    "exchange_listings",
+    "defi",
+    "gaming",
+    "rwa",
+    "stablecoin",
+    "other"
+  ],
+  "note": "Model narrative tags are normalised to this controlled vocabulary. Unknown tags become other."
+}
