@@ -1,0 +1,41 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "refrain"
+version = "0.1.0"
+description = "Public Telegram evidence collector for Refrain. Paper records only."
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "telethon>=1.42,<2",
+  "psycopg[binary]>=3.2,<4",
+  "python-dotenv>=1.0,<2",
+  "eth-hash[pycryptodome]>=0.7,<1",
+  "eth-account>=0.14.0",
+  "fastapi>=0.162.0",
+  "uvicorn>=0.54.0",
+  "httpx>=0.28.1",
+  "pydantic>=2.14.1",
+  "pytest>=9.2.0",
+]
+
+[project.scripts]
+refrain-collector = "collector.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = [
+  "apps/collector/collector",
+  "apps/api/api",
+  "packages/parsers",
+  "packages/engine",
+  "packages/shared-types/python/shared_types",
+  "seed",
+]
+dev-mode-dirs = [
+  "apps/collector",
+  "apps/api",
+  "packages",
+  "packages/shared-types/python",
+  ".",
+]

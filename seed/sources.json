@@ -1,0 +1,10 @@
+[
+  {"handle": "CryptoVillaCalls", "display_name": "Crypto Villa Calls", "role": "core_signal"},
+  {"handle": "LeveragLab", "display_name": "LeveragLab", "role": "core_signal"},
+  {"handle": "cryptolyxecalls", "display_name": "Cryptolyxe Calls", "role": "core_signal"},
+  {"handle": "CookersCooks", "display_name": "Cookers Cooks", "role": "meme_radar"},
+  {"handle": "Blessedmemecalls", "display_name": "Blessed Meme Calls", "role": "meme_radar"},
+  {"handle": "anittamaxwyn", "display_name": "Anitta Max Wyn", "role": "meme_radar"},
+  {"handle": "brainssignals", "display_name": "Brains Signals", "role": "noisy_source"},
+  {"handle": "miladydegencalls", "display_name": "Milady Degen Calls", "role": "red_flag_specimen"}
+]

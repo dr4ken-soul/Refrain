@@ -1,0 +1,39 @@
+# Local credentials and Telegram sessions
+.env
+.env.*
+**/.env
+**/.env.*
+*.session
+*.session-journal
+*.session-wal
+*.session-shm
+secrets.local.yaml
+*.pem
+*.key
+
+# JavaScript and frontend output
+node_modules/
+.next/
+out/
+coverage/
+*.tsbuildinfo
+
+# Python environments and generated output
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Contract build output
+artifacts/
+cache/
+typechain-types/
+
+# Local process files and private setup downloads
+.local/
+*.pid
+*.local.log
+.DS_Store
+Thumbs.db

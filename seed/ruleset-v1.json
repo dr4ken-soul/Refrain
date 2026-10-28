@@ -1,0 +1,76 @@
+{
+  "version": 1,
+  "name": "refrain-mandate-v1",
+  "maxActiveSources": 20,
+  "independentVoicesRequired": 3,
+  "windows": {
+    "contractAssetHours": 24,
+    "listedPairHours": 6
+  },
+  "weightedConvictionFloor": 55,
+  "paperSize": {
+    "baseUsd": 100,
+    "referenceConviction": 55,
+    "capUsd": 500,
+    "formula": "min(capUsd, baseUsd * weightedConviction / referenceConviction), rounded to whole USDC"
+  },
+  "defaultTerms": {
+    "contractAsset": {
+      "stopPctBps": -1500,
+      "targetPctBps": 3500,
+      "expiryHours": 48
+    },
+    "listedPair": {
+      "useStructuredLevels": true,
+      "fallbackStopPctBps": -1500,
+      "fallbackTargetPctBps": 3500,
+      "fallbackExpiryHours": 24
+    }
+  },
+  "priceAgreement": {
+    "contractAssetMaxDeviationBps": 300,
+    "listedPairMaxDeviationBps": 50
+  },
+  "promotionVeto": {
+    "enabled": true,
+    "trigger": "promotional_posts_at_least_independent_voices"
+  },
+  "liquidity": {
+    "contractAssetFloorUsd": 5000,
+    "listedPairExempt": true
+  },
+  "coordination": {
+    "scheduledCallInsideWindowRejects": true
+  },
+  "independence": {
+    "forwardIndependentVoices": 0,
+    "oneVoicePerChannelPerWindow": true,
+    "neutralWeightBps": 10000,
+    "sharedReferralMarkerWeightBps": 5000
+  },
+  "settlement": {
+    "firstTouch": "candles_since_entry",
+    "sameCandlePrecedence": "stop_first",
+    "winDeltaPerConvictionPoint": 5,
+    "lossDeltaPerConvictionPoint": -5,
+    "expiryQuarterStepTowardNeutral": 125,
+    "deltaClamp": [-500, 500],
+    "scoreScale": {
+      "minHundredths": 0,
+      "maxHundredths": 10000,
+      "neutralHundredths": 5000
+    }
+  },
+  "reasonCodes": [
+    "QUORUM_NOT_MET",
+    "SINGLE_VOICE_REPETITION",
+    "COPIED_EVIDENCE",
+    "COORDINATED_PUMP",
+    "PROMOTION_VETO",
+    "LIQUIDITY_FLOOR",
+    "PRICE_DISAGREEMENT",
+    "MANDATE_SIZE",
+    "MISSING_EXIT_TERMS",
+    "STALE_EVIDENCE"
+  ]
+}
