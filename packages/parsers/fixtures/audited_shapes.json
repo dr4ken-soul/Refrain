@@ -1,0 +1,125 @@
+{
+  "note": "Fixture posts shaped after the 26 October 2026 audit of the eight watched channels. Shapes only, not verbatim captured text.",
+  "fixtures": [
+    {
+      "name": "structured_long_three_targets",
+      "post": {
+        "text": "🟢 ENA/USDT LONG\nEntry: 0.62\nSL: 0.58\nTP1: 0.70\nTP2: 0.78\nTP3: 0.90",
+        "urls": [],
+        "is_media_only": false
+      },
+      "expect": {
+        "calls": 1,
+        "parser": "structured",
+        "direction": "long",
+        "asset_key": "cex:ENAUSDT",
+        "chain": "cex",
+        "ticker": "ENA",
+        "pair": "ENAUSDT",
+        "entry_price": "0.62",
+        "stop_price": "0.58",
+        "targets": ["0.70", "0.78", "0.90"]
+      }
+    },
+    {
+      "name": "structured_short_entry_zone",
+      "post": {
+        "text": "🔴 BTCUSDT SHORT\nEntry zone: 71000 - 71500\nStop Loss: 72800\nTargets: 69800, 67500, 65000",
+        "urls": [],
+        "is_media_only": false
+      },
+      "expect": {
+        "calls": 1,
+        "parser": "structured",
+        "direction": "short",
+        "asset_key": "cex:BTCUSDT",
+        "targets": ["69800", "67500", "65000"]
+      }
+    },
+    {
+      "name": "bare_solana_address_with_profit_claim",
+      "post": {
+        "text": "9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM\ncalled it, 100x incoming lads",
+        "urls": [],
+        "is_media_only": false
+      },
+      "expect": {
+        "calls": 1,
+        "parser": "address",
+        "direction": "mention",
+        "chain": "solana",
+        "extreme_language": true
+      }
+    },
+    {
+      "name": "cashtag_thesis",
+      "post": {
+        "text": "$ENA thesis: new listings lined up and supply locked. Holding through the chop.",
+        "urls": [],
+        "is_media_only": false
+      },
+      "expect": {
+        "calls": 1,
+        "parser": "cashtag",
+        "direction": "mention",
+        "ticker": "ENA",
+        "asset_key": "cex:ENAUSDT"
+      }
+    },
+    {
+      "name": "gmgn_link_no_ticker",
+      "post": {
+        "text": "https://gmgn.ai/sol/token/9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM?ref=ABC123",
+        "urls": [
+          {"url": "https://gmgn.ai/sol/token/9WzDXwBbmkg8ZTbNMqUxvQRAyrZzDsGYdLVL9zYtAWWM?ref=ABC123", "offset": 0, "length": 82}
+        ],
+        "is_media_only": false
+      },
+      "expect": {
+        "calls": 1,
+        "parser": "url",
+        "direction": "spot_buy",
+        "chain": "solana",
+        "referral_markers": 1
+      }
+    },
+    {
+      "name": "casino_deposit_promotion",
+      "post": {
+        "text": "🎰 1WIN deposit bonus: use promo code REFRAIN200, claim your bonus and free spins today",
+        "urls": [],
+        "is_media_only": false
+      },
+      "expect": {
+        "skip": "promotional_post",
+        "calls": 0
+      }
+    },
+    {
+      "name": "close_instruction_exit",
+      "post": {
+        "text": "✅ ENA/USDT TP1 hit, close the trade now and book profit",
+        "urls": [],
+        "is_media_only": false
+      },
+      "expect": {
+        "calls": 1,
+        "parser": "structured",
+        "direction": "close",
+        "asset_key": "cex:ENAUSDT"
+      }
+    },
+    {
+      "name": "media_only_screenshot",
+      "post": {
+        "text": "",
+        "urls": [],
+        "is_media_only": true
+      },
+      "expect": {
+        "skip": "media_only",
+        "calls": 0
+      }
+    }
+  ]
+}
