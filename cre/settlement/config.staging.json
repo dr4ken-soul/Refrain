@@ -3,6 +3,7 @@
   "apiBase": "http://127.0.0.1:8000",
   "chainName": "ethereum-testnet-sepolia",
   "receiver": "0x03d2011c624016F7A5A9D02318c2fdba31c63278",
+  "caller": "0x145D3d0C61615E0A4F233d470A7F3098A6D19f93",
   "rulesetHash": "0x3c029aacef517046031e44c9c92af419254cf38269ba6eff12c5bac9ed14e52a",
   "gasLimit": "3000000"
 }

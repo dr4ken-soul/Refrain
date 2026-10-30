@@ -60,6 +60,8 @@ export const configSchema = z.object({
   chainName: z.string(),
   receiver: z.custom<`0x${string}`>((value) =>
     typeof value === 'string' && /^0x[a-fA-F0-9]{40}$/.test(value)),
+  caller: z.custom<`0x${string}`>((value) =>
+    typeof value === 'string' && /^0x[a-fA-F0-9]{40}$/.test(value)),
   rulesetHash: z.string(),
   gasLimit: z.string(),
 });
@@ -74,6 +76,18 @@ const LEDGER_ABI = parseAbi([
 ]);
 
 const SCORE_PARAMS = parseAbiParameters('int256');
+
+/**
+ * The EVM capability JSON accepts base64 byte fields. Hex values from viem
+ * must be converted before they enter the call message.
+ */
+function readCall(config: Config, data: `0x${string}`) {
+  return {
+    from: hexToBase64(config.caller),
+    to: hexToBase64(config.receiver),
+    data: hexToBase64(data),
+  };
+}
 
 const WIN_DELTA_PER_POINT = 5n;
 const LOSS_DELTA_PER_POINT = 5n;
@@ -183,7 +197,7 @@ async function onCronTrigger(runtime: Runtime<Config>, _payload: CronPayload): P
     args: [BigInt(candidate.positionId)],
   });
   const positionReply = evmClient.callContract(runtime, {
-    call: { to: runtime.config.receiver, data: callData },
+    call: readCall(runtime.config, callData),
   }).result();
   const position = decodePosition(positionReply.data);
   runtime.log(
@@ -231,7 +245,7 @@ async function onCronTrigger(runtime: Runtime<Config>, _payload: CronPayload): P
   const poolAddress = pairLocator.includes(':') ? pairLocator.slice(pairLocator.indexOf(':') + 1) : '';
   const candlesUrl = poolAddress
     ? `https://api.geckoterminal.com/api/v2/networks/${network}/pools/${poolAddress}/ohlcv/hour` +
-      `?aggregate=1&limit=500&after_timestamp=${openHour}&before_timestamp=${hourStart}`
+      `?aggregate=1&limit=96&after_timestamp=${openHour}&before_timestamp=${hourStart}`
     : '';
   let candles: OhlcvCandle[] = [];
   if (candlesUrl) {
@@ -248,6 +262,10 @@ async function onCronTrigger(runtime: Runtime<Config>, _payload: CronPayload): P
       consensusIdenticalAggregation<string>(),
     )(candlesUrl).result();
     candles = parseOhlcv(candleBody);
+    const openedAtSeconds = Number(position.openedAt);
+    candles = candles.filter(
+      (candle) => candle.timestamp + 3600 > openedAtSeconds && candle.timestamp < hourStart,
+    );
     runtime.log(`Fetched ${candles.length} closed outcome candles since entry.`);
   } else {
     runtime.log('No recorded pair locator in the bundle; settling on the current price only.');
@@ -309,7 +327,7 @@ async function onCronTrigger(runtime: Runtime<Config>, _payload: CronPayload): P
         args: [sources[index]],
       });
       const scoreReply = evmClient.callContract(runtime, {
-        call: { to: runtime.config.receiver, data: scoreCallData },
+        call: readCall(runtime.config, scoreCallData),
       }).result();
       const score = decodeAbiParameters(SCORE_PARAMS, scoreReply.data)[0] as bigint;
       const towardNeutral = NEUTRAL_SCORE - score;
