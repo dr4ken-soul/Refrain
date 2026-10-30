@@ -1,0 +1,15 @@
+# Dependency and build artifacts
+node_modules/
+dist/
+bun.lock
+bun.lockb
+
+# CRE local state
+.cre/
+
+# Local secret values: the single credential file lives at the repository
+# root. Never commit .env files anywhere in the tree.
+.env
+
+# CRE compiler scratch output
+.cre_build_tmp.*

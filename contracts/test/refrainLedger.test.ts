@@ -351,7 +351,7 @@ describe("RefrainLedger", function () {
       expect(await ledger.getScore(settlement.sourceHashes[0])).to.equal(settlement.scoreDeltas[0]);
       expect(await ledger.isCallScored(settlement.callHashes[0])).to.equal(true);
 
-      const second = baseSettlement({ exitReason: 3, scheduledAt: settlement.scheduledAt + 10n });
+      const second = baseSettlement({ exitReason: 2, scheduledAt: settlement.scheduledAt + 10n });
       await expect(
         ledger.connect(forwarder).onReport("0x", encodeSettlementPayload(second)),
       ).to.be.revertedWithCustomError(ledger, "PositionAlreadySettled");

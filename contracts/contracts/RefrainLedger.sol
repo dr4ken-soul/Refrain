@@ -59,8 +59,7 @@ contract RefrainLedger is IReceiver, Ownable {
     enum ExitReason {
         Target,
         Stop,
-        Expired,
-        Manual
+        Expiry
     }
 
     // ----------------------------------------------------------- structs
@@ -384,7 +383,7 @@ contract RefrainLedger is IReceiver, Ownable {
         if (r.scheduledAt == 0 || r.scheduledAt <= s_lastSettlementScheduledAt) {
             revert StaleReport(r.scheduledAt, s_lastSettlementScheduledAt);
         }
-        if (r.exitReason > uint8(ExitReason.Manual)) {
+        if (r.exitReason > uint8(ExitReason.Expiry)) {
             revert InvalidExitReason(r.exitReason);
         }
         if (r.positionId == 0 || r.positionId > s_positionCount) {

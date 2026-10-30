@@ -56,6 +56,12 @@ async def observe_asset(asset_key, timeout=DEFAULT_TIMEOUT):
             chain = (pair.get('chainId') or '').lower()
             if chain != network and not (network == 'solana' and chain == 'solana'):
                 continue
+            base_token = ((pair.get('baseToken') or {}).get('address') or '')
+            if base_token.lower() != address.lower():
+                # priceUsd belongs to the pair's base token; a pair where the
+                # queried token is the quote side would record another asset's
+                # price.
+                continue
             liquidity = (pair.get('liquidity') or {}).get('usd')
             if liquidity is not None and (best is None or liquidity > best[0]):
                 best = (liquidity, pair)
@@ -73,25 +79,32 @@ async def observe_asset(asset_key, timeout=DEFAULT_TIMEOUT):
             client,
             f'https://api.geckoterminal.com/api/v2/networks/{network}/tokens/{address}/pools',
             headers={'accept': 'application/json'})
-        pool = None
+        token_id = f'{network}_{address}'
+        best_pool = None
         for entry in (gecko or {}).get('data', []):
-            attributes = entry.get('attributes', {})
-            reserve = attributes.get('reserve_in_usd')
-            if reserve is None:
+            attributes = entry.get('attributes') or {}
+            relationships = entry.get('relationships') or {}
+            base_id = ((relationships.get('base_token') or {}).get('data') or {}).get('id')
+            quote_id = ((relationships.get('quote_token') or {}).get('data') or {}).get('id')
+            if base_id == token_id:
+                price = attributes.get('base_token_price_usd')
+            elif quote_id == token_id:
+                price = attributes.get('quote_token_price_usd')
+            else:
                 continue
-            pool = entry
-            if best is None or reserve > best[0]:
-                break
-        if pool:
-            attributes = pool.get('attributes', {})
             reserve = attributes.get('reserve_in_usd')
-            price = attributes.get('base_token_price_usd')
+            if price is None or reserve is None:
+                continue
+            if best_pool is None or float(reserve) > float(best_pool[0]):
+                best_pool = (reserve, price, entry)
+        if best_pool:
+            reserve, price, pool = best_pool
             observations.append({
                 'kind': 'geckoterminal',
                 'locator': f'{network}:{pool.get("attributes", {}).get("address") or pool.get("id")}',
                 'observedAt': timestamp(datetime.now(timezone.utc)),
-                'liquidityUsdCents': int(round(float(reserve) * 100)) if reserve is not None else None,
-                'price': price if price is not None else None,
+                'liquidityUsdCents': int(round(float(reserve) * 100)),
+                'price': price,
             })
     return observations
 

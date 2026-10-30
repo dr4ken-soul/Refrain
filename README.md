@@ -11,7 +11,7 @@ Built for BLI Legal Tech Hackathon 2 on DoraHacks. One Build is entered for the 
 | Resource | Value |
 |---|---|
 | Live frontend | TO_FILL_AFTER_DEPLOY |
-| RefrainLedger on Sepolia | 0x583e8318b7dd9787E742752E54c10f09600A7a7d, verified at https://eth-sepolia.blockscout.com/address/0x583e8318b7dd9787E742752E54c10f09600A7a7d#code |
+| RefrainLedger on Sepolia | 0x03d2011c624016F7A5A9D02318c2fdba31c63278, verified at https://eth-sepolia.blockscout.com/address/0x03d2011c624016F7A5A9D02318c2fdba31c63278#code |
 | Example verdict transaction | TO_FILL_AFTER_FIRST_BROADCAST_RUN |
 | Example settlement transaction | TO_FILL_AFTER_FIRST_BROADCAST_RUN |
 | Demo video | TO_FILL_AFTER_RECORDING |

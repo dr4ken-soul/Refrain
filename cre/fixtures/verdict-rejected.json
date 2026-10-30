@@ -1,0 +1,281 @@
+{
+  "bundle": {
+    "asset": {
+      "assetKey": "solana:EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm",
+      "chain": "solana",
+      "contractAddress": "EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm",
+      "pair": null,
+      "ticker": "WIF"
+    },
+    "bundleHash": "0x633637730f82a65dedb7be1b4979e4adf4166f1e9a4244130f16302ad3aee420",
+    "caseKind": "convergence",
+    "evaluatedAt": "2026-10-29T11:30:00Z",
+    "eventId": "d5a88202-dd70-50f3-99ea-1ffc42bdab9b",
+    "evidence": {
+      "canonicalOrder": "posted_at ascending, then telegram_message_id ascending",
+      "completeCallOrder": [
+        "dd27d031-b938-5278-8a6d-39e147453ed5",
+        "85472e1f-ba49-52f9-8b6f-61b42e52a8ea",
+        "1ce68402-ca1d-516c-8bbd-e3249b7a67a6"
+      ],
+      "contributingCalls": [
+        {
+          "callId": "dd27d031-b938-5278-8a6d-39e147453ed5",
+          "conviction": 70,
+          "direction": "long",
+          "messageId": 101,
+          "narrativeTags": [
+            "other"
+          ],
+          "sourceHash": "0xfc1bf13cf814d1606b790bd6696dd98b2e62260f6827ef0a1a11a4af4fd70a2d",
+          "span": [
+            0,
+            54
+          ],
+          "timestamp": "2026-10-29T10:00:00Z"
+        },
+        {
+          "callId": "85472e1f-ba49-52f9-8b6f-61b42e52a8ea",
+          "conviction": 70,
+          "direction": "long",
+          "messageId": 102,
+          "narrativeTags": [
+            "other"
+          ],
+          "sourceHash": "0xfc1bf13cf814d1606b790bd6696dd98b2e62260f6827ef0a1a11a4af4fd70a2d",
+          "span": [
+            0,
+            54
+          ],
+          "timestamp": "2026-10-29T10:30:00Z"
+        },
+        {
+          "callId": "1ce68402-ca1d-516c-8bbd-e3249b7a67a6",
+          "conviction": 70,
+          "direction": "long",
+          "messageId": 103,
+          "narrativeTags": [
+            "other"
+          ],
+          "sourceHash": "0xfc1bf13cf814d1606b790bd6696dd98b2e62260f6827ef0a1a11a4af4fd70a2d",
+          "span": [
+            0,
+            54
+          ],
+          "timestamp": "2026-10-29T11:00:00Z"
+        }
+      ],
+      "entryObservations": [],
+      "firstIndependentCallBySource": {
+        "0xfc1bf13cf814d1606b790bd6696dd98b2e62260f6827ef0a1a11a4af4fd70a2d": "dd27d031-b938-5278-8a6d-39e147453ed5"
+      },
+      "independenceWeights": [
+        {
+          "sharedMarkers": [],
+          "sourceHash": "0xfc1bf13cf814d1606b790bd6696dd98b2e62260f6827ef0a1a11a4af4fd70a2d",
+          "weightBps": 10000
+        }
+      ],
+      "liquidity": [],
+      "posts": [
+        {
+          "contentHash": "content-44444444-101",
+          "editedAt": null,
+          "forwardedFrom": null,
+          "messageId": 101,
+          "sourceHash": "0xfc1bf13cf814d1606b790bd6696dd98b2e62260f6827ef0a1a11a4af4fd70a2d",
+          "text": "WIF repeat alert #1. Entry 0.18 stop 0.15 target 0.30.",
+          "urls": []
+        },
+        {
+          "contentHash": "content-44444444-102",
+          "editedAt": null,
+          "forwardedFrom": null,
+          "messageId": 102,
+          "sourceHash": "0xfc1bf13cf814d1606b790bd6696dd98b2e62260f6827ef0a1a11a4af4fd70a2d",
+          "text": "WIF repeat alert #2. Entry 0.18 stop 0.15 target 0.30.",
+          "urls": []
+        },
+        {
+          "contentHash": "content-44444444-103",
+          "editedAt": null,
+          "forwardedFrom": null,
+          "messageId": 103,
+          "sourceHash": "0xfc1bf13cf814d1606b790bd6696dd98b2e62260f6827ef0a1a11a4af4fd70a2d",
+          "text": "WIF repeat alert #3. Entry 0.18 stop 0.15 target 0.30.",
+          "urls": []
+        }
+      ],
+      "promotion": [
+        {
+          "filterReason": null,
+          "isAdvertisement": false,
+          "messageId": 101,
+          "referralMarkers": [],
+          "scheduledCall": null,
+          "sourceHash": "0xfc1bf13cf814d1606b790bd6696dd98b2e62260f6827ef0a1a11a4af4fd70a2d"
+        },
+        {
+          "filterReason": null,
+          "isAdvertisement": false,
+          "messageId": 102,
+          "referralMarkers": [],
+          "scheduledCall": null,
+          "sourceHash": "0xfc1bf13cf814d1606b790bd6696dd98b2e62260f6827ef0a1a11a4af4fd70a2d"
+        },
+        {
+          "filterReason": null,
+          "isAdvertisement": false,
+          "messageId": 103,
+          "referralMarkers": [],
+          "scheduledCall": null,
+          "sourceHash": "0xfc1bf13cf814d1606b790bd6696dd98b2e62260f6827ef0a1a11a4af4fd70a2d"
+        }
+      ],
+      "reliability": [
+        {
+          "block": null,
+          "origin": "neutral",
+          "scoreHundredths": 5000,
+          "sourceHash": "0xfc1bf13cf814d1606b790bd6696dd98b2e62260f6827ef0a1a11a4af4fd70a2d"
+        }
+      ],
+      "ruleParameters": {
+        "rulesetHash": "0x3c029aacef517046031e44c9c92af419254cf38269ba6eff12c5bac9ed14e52a",
+        "values": {
+          "coordination": {
+            "scheduledCallInsideWindowRejects": true
+          },
+          "independence": {
+            "forwardIndependentVoices": 0,
+            "neutralWeightBps": 10000,
+            "oneVoicePerChannelPerWindow": true,
+            "sharedReferralMarkerWeightBps": 5000
+          },
+          "independentVoicesRequired": 3,
+          "liquidity": {
+            "contractAssetFloorUsd": 5000,
+            "listedPairExempt": true
+          },
+          "paperSize": {
+            "baseUsd": 100,
+            "capUsd": 500,
+            "formula": "min(capUsd, baseUsd * weightedConviction / referenceConviction), rounded to whole USDC",
+            "referenceConviction": 55
+          },
+          "priceAgreement": {
+            "contractAssetMaxDeviationBps": 300,
+            "listedPairMaxDeviationBps": 50
+          },
+          "promotionVeto": {
+            "enabled": true,
+            "trigger": "promotional_posts_at_least_independent_voices"
+          },
+          "weightedConvictionFloor": 55,
+          "windows": {
+            "contractAssetHours": 24,
+            "listedPairHours": 6
+          }
+        }
+      },
+      "sharedReferralMarkers": []
+    },
+    "independentVoiceCount": 1,
+    "narrativeKey": null,
+    "pricePlan": {
+      "check": {
+        "kind": "geckoterminal",
+        "locator": "solana:EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm"
+      },
+      "maxDeviationBps": 300,
+      "primary": {
+        "kind": "dexscreener",
+        "locator": "solana:EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm"
+      }
+    },
+    "proposedTerms": {
+      "direction": "long",
+      "expiresAt": "2026-10-31T11:00:00Z",
+      "hasStructuredLevels": true,
+      "sizeUnits": null,
+      "stopBps": null,
+      "stopPrice": "0.15",
+      "targetBps": null,
+      "targetPrice": "0.30"
+    },
+    "rulesetHash": "0x3c029aacef517046031e44c9c92af419254cf38269ba6eff12c5bac9ed14e52a",
+    "rulesetVersion": 1,
+    "timingSpreadSeconds": 0,
+    "voices": [
+      {
+        "callIds": [
+          "dd27d031-b938-5278-8a6d-39e147453ed5",
+          "85472e1f-ba49-52f9-8b6f-61b42e52a8ea",
+          "1ce68402-ca1d-516c-8bbd-e3249b7a67a6"
+        ],
+        "conviction": 70,
+        "copied": false,
+        "direction": "long",
+        "firstCallAt": "2026-10-29T10:00:00Z",
+        "sourceHash": "0xfc1bf13cf814d1606b790bd6696dd98b2e62260f6827ef0a1a11a4af4fd70a2d",
+        "weightBps": 10000
+      }
+    ],
+    "weightedConviction": "70.00",
+    "window": {
+      "closedAt": "2026-10-29T11:00:00Z",
+      "startedAt": "2026-10-29T10:00:00Z"
+    }
+  },
+  "evaluation": {
+    "decision": "rejected",
+    "reason_code": "SINGLE_VOICE_REPETITION",
+    "rule_results": [
+      {
+        "evidence": "0 promotional posts versus 1 independent voices. Veto trigger not met.",
+        "pass": true,
+        "rule": "promotion_dominance"
+      },
+      {
+        "evidence": "No pre-announced timed call inside the window.",
+        "pass": true,
+        "rule": "coordination"
+      },
+      {
+        "evidence": "One channel repeated this asset 3 times against 1 independent voice.",
+        "pass": false,
+        "rule": "independence_quorum"
+      },
+      {
+        "evidence": "Reliability-weighted conviction 70.0 meets the floor of 55.",
+        "pass": true,
+        "rule": "weighted_conviction"
+      },
+      {
+        "evidence": "No recorded liquidity observation. Missing evidence cannot pass this rule.",
+        "pass": false,
+        "rule": "liquidity_floor"
+      },
+      {
+        "evidence": "Structured levels: stop 0.15, target 0.30, expiry 2026-10-31T11:00:00Z.",
+        "pass": true,
+        "rule": "exit_terms"
+      },
+      {
+        "evidence": "Paper size 127 USDC within the cap of 500 USDC.",
+        "pass": true,
+        "rule": "size_limits"
+      },
+      {
+        "evidence": "0 recorded entry observations. The CRE consensus read at filing supplies the rest.",
+        "pass": true,
+        "rule": "price_agreement"
+      },
+      {
+        "evidence": "Evaluated within 7 days of window close.",
+        "pass": true,
+        "rule": "staleness"
+      }
+    ]
+  }
+}
