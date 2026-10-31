@@ -1,20 +1,11 @@
 """Canonical raw-post records with Unicode character spans."""
 from dataclasses import asdict, dataclass
+from datetime import datetime
 import hashlib
 
 from telethon.tl.types import MessageEntityTextUrl, MessageEntityUrl
 
 from shared_types.canonical import canonical_json, timestamp
-
-
-def canonical_json(value):
-    return json.dumps(value, sort_keys=True, separators=(',', ':'), ensure_ascii=False, allow_nan=False)
-
-
-def timestamp(value):
-    if value.tzinfo is None:
-        raise ValueError('Telegram timestamps must include a timezone.')
-    return value.astimezone(timezone.utc).isoformat().replace('+00:00', 'Z')
 
 
 def character_span(text, offset, length):
@@ -93,6 +84,8 @@ def validate_replay(record):
         raise ValueError('Replay media-only field must be a boolean.')
     for field in ['posted_at', 'edited_at']:
         if record[field] is not None:
+            if not isinstance(record[field], str):
+                raise ValueError('Replay timestamps must be strings or null.')
             parsed = datetime.fromisoformat(record[field].replace('Z', '+00:00'))
             if parsed.tzinfo is None:
                 raise ValueError('Replay timestamps must include a timezone.')

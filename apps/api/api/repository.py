@@ -107,6 +107,9 @@ class Repository:
                               is_advertisement=bool(call.get('is_advertisement')),
                               filter_reason=call.get('filter_reason'),
                               extraction_confidence=call.get('extraction_confidence'),
+                              conviction=call.get('conviction'),
+                              urgency=call.get('urgency'),
+                              sentiment=call.get('sentiment'),
                               targets=Jsonb(call.get('targets', [])))
                 await self.connection.execute('''
                     INSERT INTO calls (
