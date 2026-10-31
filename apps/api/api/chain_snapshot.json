@@ -1,0 +1,43 @@
+{
+  "chainId": 11155111,
+  "chainName": "Ethereum Sepolia",
+  "ledger": "0x03d2011c624016F7A5A9D02318c2fdba31c63278",
+  "deployer": "0x145D3d0C61615E0A4F233d470A7F3098A6D19f93",
+  "approved": {
+    "eventId": "aa5cfa20-4855-5c3e-83bd-a126c2869071",
+    "caseHash": "0x6335be86f811343a36eb8fbbbf1c195ed7fe22da3abf5115676df18bd830e2c0",
+    "decision": "approved",
+    "verdictTx": "0xb09a064bac186b444e0b0b43bddd364ac47853e94741abb9c0da8f5f37fe503f",
+    "verdictBlock": 12026631,
+    "verdictTime": "2026-10-30T12:19:36Z",
+    "scheduledAt": 1793362800,
+    "position": {
+      "positionId": 1,
+      "caseHash": "0x6335be86f811343a36eb8fbbbf1c195ed7fe22da3abf5115676df18bd830e2c0",
+      "caseKind": 0,
+      "direction": 0,
+      "entryPrice1e8": "17460000",
+      "stopPrice1e8": "15000000",
+      "targetPrice1e8": "30000000",
+      "sizeUnitsCents": "13000",
+      "openedAt": 1793362800,
+      "expiresAt": 1793438100,
+      "settled": false,
+      "exitReason": null,
+      "exitPrice1e8": null,
+      "pnlUnits": null,
+      "contributorsCommit": "0x2ec9fb40f52095b9c4d45d88c72001c0f91e51c2023c1296796c6b2c229d0594"
+    }
+  },
+  "rejected": {
+    "eventId": "d5a88202-dd70-50f3-99ea-1ffc42bdab9b",
+    "caseHash": "0x633637730f82a65dedb7be1b4979e4adf4166f1e9a4244130f16302ad3aee420",
+    "decision": "rejected",
+    "reasonCode": "SINGLE_VOICE_REPETITION",
+    "verdictTx": "0x656d4efd7b26f77f5b488ff58b59423a51311cdecd253aa8e1045387a1ce377c",
+    "verdictBlock": 12026715,
+    "verdictTime": "2026-10-30T12:36:24Z",
+    "scheduledAt": 1793363820,
+    "position": null
+  }
+}

@@ -1,0 +1,45 @@
+cre.exe : Initializing...
+At line:1 char:1
++ & 'C:\Users\Paul\AppData\Local\Programs\cre\cre.exe' workflow simulat ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Initializing...:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+Loading settings...
+Checking RPC connectivity...
+Compiling workflow...
+[OK] Workflow compiled
+[OK] Simulation limits enabled
+  HTTP: req=120kb resp=250kb timeout=10s | ConfHTTP: req=125kb resp=500kb timeout=1m30s | Consensus obs=25kb | ChainWrite evm_report=50kb evm_gas=10000000 solana_report=265b solana_cu=300000 | WASM binary=100mb compressed=20mb
+  Binary hash: 3c39b75252efbf1a39536e8b10077aa34f60e788dce25f7712eafd86597074a1
+  Config hash: f65803275ed88a735bd7d06845f6aad16be89fac4ff50c1b3ba942694e1c9434
+! Secret "CRE_BEARER_SECRET" uses itself as the env var name - this is fragile and may cause confusion. Consider
+using a distinct env var name (e.g. "CRE_CRE_BEARER_SECRET").
+2026-10-30T13:36:08Z [SIMULATION] Simulator Initialized
+
+2026-10-30T13:36:08Z [SIMULATION] Running trigger trigger=cron-trigger@1.0.0
+2026-10-30T13:36:08Z [USER LOG] Verdict run at scheduled slot 1793363820.
+2026-10-30T13:36:08Z [USER LOG] Oldest candidate: d5a88202-dd70-50f3-99ea-1ffc42bdab9b (convergence).
+2026-10-30T13:36:08Z [USER LOG] Bundle 0x633637730f82a65dedb7be1b4979e4adf4166f1e9a4244130f16302ad3aee420 verified against canonical bytes.
+2026-10-30T13:36:08Z [USER LOG] Rule promotion_dominance: true 0 promotional posts versus 1 independent voices. Veto trigger not met.
+2026-10-30T13:36:08Z [USER LOG] Rule coordination: true No pre-announced timed call inside the window.
+2026-10-30T13:36:08Z [USER LOG] Rule independence_quorum: false One channel repeated this asset 3 times against 1 independent voice.
+2026-10-30T13:36:08Z [USER LOG] Rule weighted_conviction: true Reliability-weighted conviction 70.0 meets the floor of 55.
+2026-10-30T13:36:08Z [USER LOG] Rule liquidity_floor: false No recorded liquidity observation. Missing evidence cannot pass this rule.
+2026-10-30T13:36:08Z [USER LOG] Rule exit_terms: true Structured levels: stop 0.15, target 0.30, expiry 2026-10-31T11:00:00Z.
+2026-10-30T13:36:08Z [USER LOG] Rule size_limits: true Paper size 127 USDC within the cap of 500 USDC.
+2026-10-30T13:36:08Z [USER LOG] Rule price_agreement: true 0 recorded entry observations. The CRE consensus read at filing supplies the rest.
+2026-10-30T13:36:08Z [USER LOG] Rule staleness: true Evaluated within 7 days of window close.
+2026-10-30T13:36:08Z [USER LOG] Recomputed decision rejected reason SINGLE_VOICE_REPETITION.
+2026-10-30T13:36:08Z [USER LOG] Encoded verdict payload 0x0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000003200000000000000000000000000000000000000000000000000000000000000020633637730f82a65dedb7be1b4979e4adf4166f1e9a4244130f16302ad3aee4203c029aacef517046031e44c9c92af419254cf38269ba6eff12c5bac9ed14e52ac5f3c4d7f1cbd976a35ea64081a8ee231d70712ff593118f32e14a5823dfe7840000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000 ...(truncated)
+2026-10-30T13:36:25Z [USER LOG] Filed verdict. eventId=d5a88202-dd70-50f3-99ea-1ffc42bdab9b decision=rejected reason=SINGLE_VOICE_REPETITION bundleHash=0x633637730f82a65dedb7be1b4979e4adf4166f1e9a4244130f16302ad3aee420 tx=0x656d4efd7b26f77f5b488ff58b59423a51311cdecd253aa8e1045387a1ce377c
+
+[OK] Workflow Simulation Result:
+"eventId=d5a88202-dd70-50f3-99ea-1ffc42bdab9b decision=rejected reason=SINGLE_VOICE_REPETITION bundleHash=0x633637730f82a65dedb7be1b4979e4adf4166f1e9a4244130f16302ad3aee420 tx=0x656d4efd7b26f77f5b488ff58b59423a51311cdecd253aa8e1045387a1ce377c"
+
+2026-10-30T13:36:25Z [SIMULATION] Execution finished signal received
+2026-10-30T13:36:25Z [SIMULATION] Skipping WorkflowEngineV2
+
+| Simulation complete! Ready to deploy your workflow?  |
+|                                                      |
+| Run cre account access to request deployment access. |

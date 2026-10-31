@@ -1,0 +1,44 @@
+[
+  {
+    "runId": "verdict-approved-20261030T121936Z",
+    "workflow": "verdict",
+    "eventId": "aa5cfa20-4855-5c3e-83bd-a126c2869071",
+    "bundleHash": "0x6335be86f811343a36eb8fbbbf1c195ed7fe22da3abf5115676df18bd830e2c0",
+    "decision": "approved",
+    "reasonCode": null,
+    "mode": "broadcast",
+    "outcome": "filed",
+    "recordedAt": "2026-10-30T13:19:36Z",
+    "txHash": "0xb09a064bac186b444e0b0b43bddd364ac47853e94741abb9c0da8f5f37fe503f",
+    "block": 12026631,
+    "log": "cre-runs/verdict-broadcast.log"
+  },
+  {
+    "runId": "verdict-rejected-20261030T133624Z",
+    "workflow": "verdict",
+    "eventId": "d5a88202-dd70-50f3-99ea-1ffc42bdab9b",
+    "bundleHash": "0x633637730f82a65dedb7be1b4979e4adf4166f1e9a4244130f16302ad3aee420",
+    "decision": "rejected",
+    "reasonCode": "SINGLE_VOICE_REPETITION",
+    "mode": "broadcast",
+    "outcome": "filed",
+    "recordedAt": "2026-10-30T13:36:24Z",
+    "txHash": "0x656d4efd7b26f77f5b488ff58b59423a51311cdecd253aa8e1045387a1ce377c",
+    "block": 12026715,
+    "log": "cre-runs/verdict-rejected-broadcast.log"
+  },
+  {
+    "runId": "settlement-dryrun-20261030T133046Z",
+    "workflow": "settlement",
+    "eventId": "aa5cfa20-4855-5c3e-83bd-a126c2869071",
+    "bundleHash": "0x6335be86f811343a36eb8fbbbf1c195ed7fe22da3abf5115676df18bd830e2c0",
+    "decision": null,
+    "reasonCode": null,
+    "mode": "dry-run",
+    "outcome": "not due",
+    "recordedAt": "2026-10-30T13:30:46Z",
+    "txHash": null,
+    "block": null,
+    "log": "cre-runs/settlement-dryrun.log"
+  }
+]
