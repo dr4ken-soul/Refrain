@@ -17,7 +17,7 @@ Do this first because every later phase depends on accounts that only the projec
 5. Choose the extraction model endpoint and obtain `LLM_BASE_URL`, `LLM_API_KEY` and `LLM_MODEL`. Any OpenAI-compatible provider works. Pick a fast low-cost model, because deterministic parsers handle most posts.
 6. Install Node 20 or newer, Python 3.12, Hardhat tooling, and the CRE CLI from the official Chainlink release page. Run `cre login` once. Record the CLI version in `cre/README.md`.
 7. Read the current CRE documentation and the cre-templates repository. Note the installed `@chainlink/cre-sdk` version, the runtime it expects, the HTTP and EVM capability imports, the consensus helpers, secrets handling, and the Sepolia forwarder address process. Write these notes into `cre/README.md` before any workflow code exists.
-8. Initialise the monorepo exactly as shaped in CLAUDE.md, copy the documents into `docs/`, copy `.env.example` to `.env` files per app and fill the values. Confirm `.env` and the Telegram session file are ignored by version control.
+8. Initialise the monorepo exactly as shaped in CLAUDE.md and copy the documents into `docs/`. Copy `.env.example` once to the repository-root `.env` and fill its values. Keep credentials in that one ignored file. The web app may use `apps/web/.env.local` for the public API URL only. Confirm `.env` and the Telegram session file are ignored by version control.
 
 **Acceptance test:** `cre --version` prints the recorded version, the Sepolia wallet balance reads above zero through the configured RPC, the Supabase project accepts a connection, and the empty monorepo with docs is committed.
 

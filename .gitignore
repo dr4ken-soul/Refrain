@@ -3,6 +3,7 @@
 .env.*
 **/.env
 **/.env.*
+!/.env.example
 *.session
 *.session-journal
 *.session-wal
@@ -37,3 +38,6 @@ typechain-types/
 *.local.log
 .DS_Store
 Thumbs.db
+
+# Runtime operator state and local web environment
+apps/api/api/operator_state.json

@@ -69,7 +69,7 @@ Reference: https://www.alchemy.com/docs/reference/node-supported-chains
 
 There is no separate CRE ETH token for Sepolia gas. Ordinary Sepolia ETH funds contract deployment and CRE simulation broadcasts.
 
-`CRE_ETH_PRIVATE_KEY` is the private key of the dedicated simulation signer. It is not an RPC API key, Chainlink account key or wallet address. The owner has populated this field; it has not been displayed or used to sign anything during setup.
+`CRE_ETH_PRIVATE_KEY` is the private key of the dedicated simulation signer. It is not an RPC API key, Chainlink account key or wallet address. This value is secret material. The local CRE runner reads it from the root `.env` and redacts it from archived logs. Use a dedicated Sepolia-only wallet. Rotate it if it has ever been echoed to a terminal or shared log.
 
 An Ethereum private key works across EVM networks. Selecting Sepolia does not make a private key cryptographically testnet-only. Use a dedicated disposable account that has never held valuable assets and is never used on mainnet. If the populated key is a personal or valuable wallet key, replace it locally before any deployment. Fund the new address with Sepolia ETH from the existing account if necessary. Never share a seed phrase.
 
@@ -80,7 +80,7 @@ An Ethereum private key works across EVM networks. Selecting Sepolia does not ma
 3. Under API development tools, register an application.
 4. Save its numeric API ID as `TELEGRAM_API_ID` and its API hash as `TELEGRAM_API_HASH`.
 5. Keep `TELEGRAM_SESSION_PATH=./.local/telegram/refrain.session` for local use. It is a file path, not a value from Telegram.
-6. The implemented collector's first interactive login will create the session file after the operator completes Telegram's code and any two-step verification. No collector or login command is implemented yet.
+6. The collector login command is available as `scripts/telegram-login.ps1`. Run it in your own interactive terminal. Enter the Telegram code and any two-step verification there; never send them in chat.
 
 Do not substitute a BotFather bot token. The specified history collector uses Telethon and an operator account.
 
@@ -88,14 +88,14 @@ Do not substitute a BotFather bot token. The specified history collector uses Te
 
 - `CRE_BEARER_SECRET`: generated server secret for the workflow API endpoints. Later, provision the same value through the CRE secret mechanism without committing the value.
 - `OPERATOR_SECRET`: separate generated server secret for operator sign-in.
-- `API_BASE_URL`: local FastAPI URL, currently http://localhost:8000. Replace it with the reachable hosted API URL for hosted workflows.
-- `NEXT_PUBLIC_API_BASE_URL`: browser-reachable API URL, currently http://localhost:8000. Replace it for deployment.
+- `API_BASE_URL`: local FastAPI URL, currently http://127.0.0.1:8000. Replace it with the reachable hosted API URL for hosted workflows.
+- `NEXT_PUBLIC_API_BASE_URL`: browser-reachable API URL, currently http://127.0.0.1:8000. Replace it for deployment.
 - `NEXT_PUBLIC_CHAIN_ID`: 11155111.
 - `PRICE_FETCH_TIMEOUT_SECONDS`: 10.
 
 ## Values produced later
 
-Leave `REFRAIN_LEDGER_ADDRESS` and `NEXT_PUBLIC_REFRAIN_LEDGER_ADDRESS` empty until RefrainLedger has actually deployed on Sepolia. The deployment receipt supplies the address. A wallet address is not a substitute.
+RefrainLedger is deployed on Sepolia at `0x03d2011c624016F7A5A9D02318c2fdba31c63278`. The template includes this public contract address. A wallet address is not a substitute.
 
 Public web and API deployment URLs, an Etherscan verification API key if the verification tooling requires it, and authenticated GitHub, hosting and DoraHacks access will be needed during their respective build phases. None of these is evidence that the current application is deployed.
 

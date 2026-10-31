@@ -1,129 +1,92 @@
 # Refrain CRE workflows
 
-Two Chainlink CRE workflows move a frozen evidence bundle from the API to
-`RefrainLedger` on Ethereum Sepolia:
+Two Chainlink CRE workflows move a frozen evidence bundle to `RefrainLedger` on Ethereum Sepolia:
 
-| Workflow | Trigger | Reads | Writes |
-| --- | --- | --- | --- |
-| `verdict` | cron every hour | pending candidate, frozen bundle, fresh entry price from two recorded sources | approved or rejected `VerdictReport` |
-| `settlement` | cron every hour | due positions from the API, `getPosition` from the ledger, closed hourly candles, current price | `SettlementReport` plus per-channel score deltas |
+| Workflow | Reads | Writes |
+| --- | --- | --- |
+| `verdict` | pending candidate, frozen bundle, fresh entry price from two recorded sources | approved or rejected `VerdictReport` |
+| `settlement` | open position, `getPosition` from the ledger, closed hourly candles, current price | `SettlementReport` and per-channel score deltas |
 
-The workflows never decide anything the Python engine did not already decide:
-the bundle hash and every rule result are recomputed from the frozen bundle
-before a report is produced. TypeScript mirrors of the canonical byte encoding
-and the ruleset are in `shared/`.
+The workflow recomputes the bundle hash and every rule result before producing a report. Canonical bytes, rules and report codecs live in `shared/`.
 
 ## Versions
 
-- CRE CLI 1.39.0 (`C:\Users\Paul\AppData\Local\Programs\cre\cre.exe`)
+- CRE CLI 1.39.0
 - `@chainlink/cre-sdk` 1.23.0
-- viem 2.34.0, zod 3.25.76
-- bun 1.4.4, required by `cre-compile` for TypeScript workflows
+- viem 2.34.0
+- zod 3.25.76
+- Bun 1.4.4, required by `cre-compile`
 
 ## Layout
 
-```
+```text
 cre/
-  project.yaml              RPC settings per target
-  secrets.yaml              secret id to environment variable mapping
-  shared/                   canonical bytes, ruleset mirror, report codecs
+  project.yaml
+  secrets.yaml
+  shared/                   canonical bytes, rules mirror, report codecs
   shared/fixture.test.ts    bundle hash and rules parity tests
-  fixtures/                 approved and rejected frozen bundles
-  verdict/                  verdict workflow, config, workflow.yaml
-  settlement/               settlement workflow, config, workflow.yaml
+  fixtures/                 approved and rejected deterministic bundles
+  verdict/                  verdict workflow, config and workflow.yaml
+  settlement/               settlement workflow, config and workflow.yaml
 ```
 
 ## Credentials
 
-The repository root `.env` is the single credentials file. Never copy it into
-`cre/`. Simulation and broadcast both read it through `-e ../.env`, and
-`project.yaml` reads `SEPOLIA_RPC_URL` from the process environment, which the
-CLI populates from that file.
+The repository-root `.env` is the only credentials file. `scripts/run_cre_cycle.py` reads it, supplies values to the CRE process environment, and redacts environment values from saved logs. Do not create `cre/.env` and do not pass the root file through the CLI `-e` flag. A failed local CLI invocation previously echoed the file contents to a terminal, so the wrapper avoids that path.
 
-Relevant keys: `SEPOLIA_RPC_URL`, `CRE_ETH_PRIVATE_KEY`, `CRE_BEARER_SECRET`.
-The CLI signs simulated broadcasts with `CRE_ETH_PRIVATE_KEY`.
-
-## Incremental TypeScript imports
-
-Both workflows import `../shared/*` directly. The CRE compiler bundles files
-outside the workflow directory, so there is no copy step.
+The relevant settings are `SEPOLIA_RPC_URL`, `CRE_ETH_PRIVATE_KEY`, `CRE_BEARER_SECRET`, `API_BASE_URL` and `ETHEREUM_MAINNET_RPC_URL`. The private key is for a dedicated Sepolia simulation wallet only. Mainnet access is read-only for price feeds.
 
 ## Windows path note
 
-`cre-compile` breaks when the project path contains a space. Create a junction
-once and run the CLI from it:
+`cre-compile` breaks when the repository path contains a space. Create a junction and use it for CRE commands:
 
-```
+```text
 cmd /c mklink /J C:\refrain "C:\Users\Paul\Documents\Coding Area\Hackathon\Refrain"
-cd C:\refrain\cre
+cd C:\refrain
 ```
 
 ## Run
 
-Start the stub API from the repository root (port 8000):
+Keep the API available at the `API_BASE_URL` in the root `.env`. From `C:\refrain`, run a dry pass:
 
-```
-.venv\Scripts\python -m uvicorn api.main:app --host 127.0.0.1 --port 8000
-```
-
-Simulate without broadcasting:
-
-```
-cre workflow simulate ./verdict -T staging-settings --non-interactive --trigger-index 0 -e ../.env
-cre workflow simulate ./settlement -T staging-settings --non-interactive --trigger-index 0 -e ../.env
+```powershell
+.\.venv\Scripts\python.exe .\scripts\run_cre_cycle.py --dry-run
 ```
 
-Broadcast to Sepolia:
+Broadcast is explicit and checks that the configured RPC reports Sepolia chain ID 11155111:
 
-```
-cre workflow simulate ./verdict -T staging-settings --non-interactive --trigger-index 0 --broadcast -e ../.env
-cre workflow simulate ./settlement -T staging-settings --non-interactive --trigger-index 0 --broadcast -e ../.env
+```powershell
+.\.venv\Scripts\python.exe .\scripts\run_cre_cycle.py --broadcast
 ```
 
-Run the parity tests:
+The runner skips verdict hashes already recorded in the committed chain snapshot. It runs settlement against an open position and archives the bundle, workflow log and any transaction hash under `cre-runs/<date>/<run-id>/`. Do not broadcast the demo expiry settlement before 2026-10-31T09:15:00Z.
 
-```
+Run the parity tests from the `cre` directory:
+
+```powershell
 npm test
 ```
 
-## Fixtures
+## Fixtures and chain state
 
-`fixtures/verdict-approved.json` freezes one convergence case on WIF with three
-independent voices and live dexscreener and geckoterminal observations taken
-when the fixture was generated. `fixtures/verdict-rejected.json` freezes a
-single voice repeating the same call three times.
+`fixtures/verdict-approved.json` is a deterministic convergence fixture for WIF with three synthetic independent voices. `fixtures/verdict-rejected.json` is a deterministic single-voice repetition fixture. They are CRE test evidence, not captured Telegram posts.
 
-Regenerate (requires network access, rewrites both fixtures and prints the new
-hashes):
-
-```
-.venv\Scripts\python scripts\make_cre_fixtures.py
-```
-
-The approved case expires at 2026-10-31T09:15:00Z, 48 hours after its last
-call. The settlement workflow cannot file an expiry before that instant.
+The approved fixture expires at 2026-10-31T09:15:00Z. The settlement workflow must wait for a stop, target or expiry touch before it files.
 
 ## Deployments
 
 | Item | Address |
 | --- | --- |
-| RefrainLedger (Sepolia) | `0x03d2011c624016F7A5A9D02318c2fdba31c63278` |
-| MockKeystoneForwarder (simulation) | `0x15fC6ae953E024d975e77382eEeC56A9101f9F88` |
-| KeystoneForwarder (production) | `0xF8344CFd5c43616a4366C34E3EEE75af79a74482` |
+| RefrainLedger, Sepolia | `0x03d2011c624016F7A5A9D02318c2fdba31c63278` |
+| MockKeystoneForwarder, simulation | `0x15fC6ae953E024d975e77382eEeC56A9101f9F88` |
+| KeystoneForwarder, production | `0xF8344CFd5c43616a4366C34E3EEE75af79a74482` |
 
-The ledger was deployed with the MockKeystoneForwarder so that simulated
-broadcasts are accepted. Before production delivery the owner must call
-`setForwarderAddress(0xF8344CFd5c43616a4366C34E3EEE75af79a74482)`.
+The ledger uses the MockKeystoneForwarder so CRE simulation broadcasts are accepted. Before production delivery, the owner must call `setForwarderAddress(0xF8344CFd5c43616a4366C34E3EEE75af79a74482)`.
 
-`config.staging.json` carries the ledger as `receiver` and a gas limit of
-3,000,000. The forwarder forwards nearly all remaining gas to `onReport`; a
-1,000,000 limit ran out inside the ledger and the forwarder recorded a failed
-transmission without reverting the outer transaction.
+The staging configs set a 3,000,000 gas limit. A 1,000,000 limit ran out inside the ledger and the forwarder recorded a failed transmission even though the outer transaction succeeded.
 
 ## Recorded runs
 
-- `cre-runs/verdict-broadcast.log`: approved verdict broadcast on
-  2026-10-30T13:19:36Z, transaction
-  `0xb09a064bac186b444e0b0b43bddd364ac47853e94741abb9c0da8f5f37fe503f`.
-  Sepolia state: position 1 open, entry 0.1746, stop 0.15, target 0.30,
-  paper size 130 USDC, expiry 2026-10-31T09:15:00Z.
+- Approved verdict: [transaction](https://eth-sepolia.blockscout.com/tx/0xb09a064bac186b444e0b0b43bddd364ac47853e94741abb9c0da8f5f37fe503f), block 12026631. Position 1 is open, with entry 0.1746, stop 0.15, target 0.30, paper size 130 USDC and expiry 2026-10-31 09:15 UTC.
+- Rejected verdict: [transaction](https://eth-sepolia.blockscout.com/tx/0x656d4efd7b26f77f5b488ff58b59423a51311cdecd253aa8e1045387a1ce377c), block 12026715.
+- Settlement: not broadcast yet. The committed dry run found no closed hourly candle touch before expiry.

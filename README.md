@@ -1,100 +1,126 @@
 # Refrain
 
-An autonomous evidence agent for crypto call channels. Refrain monitors up to 20 public Telegram channels, extracts every market call, detects when separate channels converge on the same asset or narrative, and files a verdict under a fixed public mandate. A Chainlink CRE workflow fetches the frozen evidence and market prices under consensus and writes the verdict into a Sepolia ledger contract. Approved convergences open paper positions. Rejected and deferred ones are filed beside them with reason codes. A second CRE workflow settles due positions and moves each channel's reliability score on-chain.
+Refrain is an evidence agent for public Telegram call channels. It extracts calls, tests whether voices agree independently, and records paper verdicts through Chainlink CRE on Ethereum Sepolia. The ledger holds no funds and cannot execute trades.
 
-Paper trading only. No real funds move anywhere in this system, and the ledger contract cannot hold a balance.
+Built for BLI Legal Tech Hackathon 2, for the RYO-CHAN Autonomous Agents bounty and the Chainlink Best Workflow with CRE bounty.
 
-Built for BLI Legal Tech Hackathon 2 on DoraHacks. One Build is entered for the RYO-CHAN Autonomous Agents bounty ($6,000) and the Chainlink Best Workflow with CRE bounty (two awards of $1,000).
+## Submission evidence and remaining gates
 
-## Links
+| Item | Status |
+| --- | --- |
+| GitHub repository | [dr4ken-soul/Refrain](https://github.com/dr4ken-soul/Refrain) |
+| Public frontend | Not deployed |
+| RefrainLedger | [0x03d2011c624016F7A5A9D02318c2fdba31c63278, verified on Sepolia](https://eth-sepolia.blockscout.com/address/0x03d2011c624016F7A5A9D02318c2fdba31c63278#code) |
+| Approved verdict | [Sepolia transaction](https://eth-sepolia.blockscout.com/tx/0xb09a064bac186b444e0b0b43bddd364ac47853e94741abb9c0da8f5f37fe503f) |
+| Rejected verdict | [Sepolia transaction](https://eth-sepolia.blockscout.com/tx/0x656d4efd7b26f77f5b488ff58b59423a51311cdecd253aa8e1045387a1ce377c) |
+| Settlement transaction | Pending. Position 1 expires at 2026-10-31 09:15 UTC. |
+| Captured Telegram replay | Not frozen. The current public replay uses deterministic CRE test fixtures, not captured Telegram posts. |
+| Demo video | Not recorded |
+| DoraHacks Build | Not submitted |
 
-| Resource | Value |
-|---|---|
-| Live frontend | TO_FILL_AFTER_DEPLOY |
-| RefrainLedger on Sepolia | 0x03d2011c624016F7A5A9D02318c2fdba31c63278, verified at https://eth-sepolia.blockscout.com/address/0x03d2011c624016F7A5A9D02318c2fdba31c63278#code |
-| Example verdict transaction | TO_FILL_AFTER_FIRST_BROADCAST_RUN |
-| Example settlement transaction | TO_FILL_AFTER_FIRST_BROADCAST_RUN |
-| Demo video | TO_FILL_AFTER_RECORDING |
+The interface and API are currently local replay builds. A public site, real captured Telegram replay and settlement filing remain required before this repository is submission-ready.
 
-## How It Works
+## System
 
-1. **Collect.** A Telethon collector reads the configured public channels with a dedicated operator account and stores every post with its original time, entity URLs, forward origin and content hash. A replay importer rebuilds the same state from a frozen snapshot, so judging never depends on a live session.
-2. **Extract.** Deterministic parsers handle structured futures calls, cashtags, USDT pairs, Solana and EVM contract addresses, and addresses embedded in GMGN, Phantom and fomo links. Advertisements carrying partner codes, casino promotions or referral parameters are classified and stored as promotion evidence. Only unstructured residue reaches the language model, which returns strict JSON: asset mentions, sentiment, conviction, urgency and narrative tags. The model never decides.
-3. **Converge.** Calls group into events by asset key or by narrative key. Independence rules collapse repeats by one channel into a single voice, remove forwarded copies entirely and down-weight channels sharing referral markers inside the window.
-4. **Decide.** A versioned, hashed ruleset evaluates each frozen evidence bundle: approved, rejected with a reason code, or deferred. Rules set the voice threshold, windows per asset family, conviction floor, liquidity floor, paper size, stop, target, expiry, price tolerances and the promotion veto.
-5. **File with CRE.** The verdict workflow fetches the bundle and entry prices from two recorded sources under DON consensus, recomputes the bundle hash and rule results, and writes a signed report to RefrainLedger on Sepolia. The settlement workflow reads position terms back from the contract, applies first-touch logic against recorded candles and writes the result plus per-channel score deltas on-chain.
-6. **Show the record.** The public interface renders the evidence board, case files, ledger, reliability index, watchlist and mandate directly from the API and contract reads. Stale data is labelled as recorded replay.
+1. The Telethon collector reads public channels, preserves original timestamps and edits, and exports hash-verified JSONL replay data.
+2. Deterministic parsers classify structured calls, contract addresses, promotions, exits and media-only posts. A language model handles only unstructured residue and never decides.
+3. The engine groups calls by asset or narrative, removes forwards, collapses repeats by source and evaluates a versioned mandate.
+4. CRE recomputes the frozen bundle hash and rule results, checks prices under consensus, and files the verdict to RefrainLedger.
+5. A second CRE workflow checks open paper positions and files settlements and score changes.
+6. The Next.js app reads the API and presents replay, evidence, filed decisions and operator controls.
 
-## Repository Layout
+## Repository layout
 
 ```text
-apps/web          Next.js frontend
-apps/api          FastAPI service and contract event indexer
-apps/collector    Telethon collector and replay importer
-packages/parsers  Deterministic Telegram call parsers
-packages/engine   Convergence, canonical bundles and the ruleset evaluator
-cre/              CRE project with verdict and settlement workflows
-contracts/        RefrainLedger, Hardhat project
-seed/             Audited watchlist, ruleset version 1 and the replay snapshot
-cre-runs/         Committed simulation logs with the bundle each run filed
-docs/             FRONTEND_SPEC, APP_BLUEPRINT, PRODUCT and BUILD_GUIDE
+apps/collector  Telethon collector and replay importer
+apps/api        FastAPI transport and replay API
+apps/web        Next.js public evidence interface
+packages/       Parsers, convergence engine and shared types
+cre/            CRE verdict and settlement workflows
+contracts/      RefrainLedger and Hardhat project
+seed/           Audited watchlist and mandate version 1
+cre-runs/       CRE bundles and recorded run logs
 ```
 
-## Quick Start, Replay Mode
+## Local setup
 
-Replay mode needs no Telegram account and no live prices.
+Requirements: Python 3.12, Node 20 or newer, PostgreSQL, and the CRE CLI for workflow simulation.
 
-```text
-1. Clone the repository and copy .env.example to .env in apps/api, apps/web and cre.
-2. Start local Postgres, then apply migrations from apps/api/migrations in order.
-3. Seed the watchlist and ruleset: python -m seed.load_seed
-4. Load the frozen history: python -m collector.replay_import seed/replay/posts.jsonl
-5. Run extraction and evaluation: python -m engine.run_pipeline --replay
-6. Start the API: uvicorn api.main:app --port 8000
-7. Start the web app: npm run dev in apps/web
-8. Open the board. The interface shows the recorded replay state by design.
+1. Copy `.env.example` once to the repository-root `.env` and fill in local values. The root `.env` is the only credentials file. Keep it ignored. Never copy credentials into app folders or `cre/`.
+2. Create the Python environment and install the project from the repository root:
+
+   ```powershell
+   python -m venv .venv
+   .\.venv\Scripts\python.exe -m pip install -e .
+   ```
+
+3. Start the API from `apps/api`:
+
+   ```powershell
+   ..\..\.venv\Scripts\python.exe -m uvicorn api.main:app --host 127.0.0.1 --port 8000
+   ```
+
+4. In `apps/web/.env.local`, set only the browser-visible API address:
+
+   ```text
+   NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8000
+   ```
+
+5. Install and start the web app from `apps/web`:
+
+   ```powershell
+   npm install
+   npm run dev
+   ```
+
+6. Open `http://127.0.0.1:3000`. The API currently serves the committed CRE fixture replay. It is labelled as replay and is not a captured Telegram archive.
+
+## Telegram collection
+
+The owner must complete the interactive login locally. Do not send Telegram codes or two-step verification details in chat.
+
+```powershell
+.\scripts\telegram-login.ps1
+.\.venv\Scripts\python.exe -m collector status
+.\.venv\Scripts\python.exe -m collector init-db
+.\.venv\Scripts\python.exe -m collector backfill --days 14
+.\.venv\Scripts\python.exe -m collector export seed/replay/posts.jsonl
 ```
 
-## CRE Workflows
+The collector export is the source for a real frozen history. The web replay API is not yet wired to database records or that exported file.
 
-Prerequisites: the CRE CLI from the official Chainlink release page, Node 20 or newer, a faucet-funded Sepolia wallet in `CRE_ETH_PRIVATE_KEY`, and the API running with a matching `CRE_BEARER_SECRET`. Always check `cre/README.md` for the CLI and SDK versions this repository was built against, and read the current CRE documentation before changing workflow code.
+## CRE workflows
 
-```text
-Dry run, verdict workflow:
-  cre workflow simulate ./cre/workflows/verdict --target staging-settings
+Check `cre/README.md` for the CLI and SDK versions. The local runner loads the root `.env` into the CRE process and redacts environment values from archived logs. Do not pass the `.env` file with the CLI `-e` option.
 
-Broadcast a verdict filing to Sepolia:
-  cre workflow simulate ./cre/workflows/verdict --target staging-settings --broadcast
-
-Dry run, settlement workflow:
-  cre workflow simulate ./cre/workflows/settlement --target staging-settings
-
-Broadcast a settlement to Sepolia:
-  cre workflow simulate ./cre/workflows/settlement --target staging-settings --broadcast
+```powershell
+Set-Location C:\refrain
+.\.venv\Scripts\python.exe .\scripts\run_cre_cycle.py --dry-run
 ```
 
-Flag names follow the CRE CLI documentation at build time. If the installed CLI differs, its help output wins. Every production run in this repository is committed under `cre-runs/<date>/<run-id>/` with the bundle JSON, the full simulation log and the transaction hash.
+A broadcast pass is explicit and verifies that the configured RPC reports Sepolia chain ID 11155111. Position 1 is held to expiry before the runner allows an expiry broadcast:
 
-CRE workflow deployment to the DON requires Early Access approval. This project demonstrates the workflows through open CLI simulation with broadcast, run on a schedule by a small runner. The interface and this README state that method plainly.
+```powershell
+.\.venv\Scripts\python.exe .\scripts\run_cre_cycle.py --broadcast
+```
 
-## Contracts
+The runner archives each invoked workflow under `cre-runs/<date>/<run-id>/` and updates `cre-runs/index.json`. It skips fixture verdicts already filed on-chain. The current demo settlement broadcast is held until the position expiry at 2026-10-31 09:15 UTC.
 
-```text
-cd contracts
+CRE DON deployment requires Early Access. This project demonstrates simulation with broadcast to Sepolia and does not claim DON deployment.
+
+## Contract checks
+
+```powershell
+Set-Location contracts
 npm install
 npx hardhat test
-npx hardhat run scripts/deploy.ts --network sepolia
 ```
 
-RefrainLedger accepts signed reports through `onReport` from the configured CRE forwarder, stores one verdict per case hash, opens paper positions from approved verdicts, settles each position once and applies bounded score deltas per channel hash. It holds no balance and exposes no transfer, deposit or withdrawal function. Deploy to Sepolia only.
-
-## Live Collector
-
-Live mode needs a dedicated secondary Telegram account and application credentials from my.telegram.org. The first run logs in interactively and writes a session file that must never be committed. The collector backfills 14 days per channel, then tails new posts and edits, honouring Telegram flood-wait responses. Public channels only, plus sources the operator account legitimately belongs to.
+The contract accepts reports only from its configured CRE forwarder. It stores verdicts and paper terms, settles each position once, and bounds score changes. It has no balance or transfer functions.
 
 ## Boundaries
 
-- Paper trading only. No exchange keys, no execution, no live-trading mode exists.
-- Telegram is the only live source in this build. X and Discord sit behind the same source interface as later adapters and are not claimed as working inputs.
-- Media-only posts without text are skipped with a recorded reason. There is no OCR.
-- Reliability scores report settled history. They are not investment advice and not a prediction of future calls.
+- Paper positions only. There is no exchange integration, order execution or live-trading mode.
+- Telegram is the only live source adapter. Public channels only, plus sources the operator account legitimately belongs to.
+- Media-only posts are skipped with a recorded reason. There is no OCR.
+- Scores report settled history under the public mandate. They do not predict future calls.

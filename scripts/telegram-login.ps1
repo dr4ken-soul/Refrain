@@ -11,7 +11,7 @@ Write-Host 'Do not send them to the coding agent or paste them in chat.'
 Write-Host ''
 
 if (-not (Test-Path -LiteralPath $Python)) {
-    throw 'The project Python environment is missing. Ask the coding agent to finish dependency installation.'
+    throw 'The project Python environment is missing. Install dependencies from the repository root with python -m pip install -e . and run this script again.'
 }
 
 & $Python -m collector login
