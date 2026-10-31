@@ -16,6 +16,17 @@ The owner must complete Telegram login in a local interactive terminal. The logi
 
 The export contains captured public-channel history. Do not hand-edit posts or substitute test fixture text. The current public API still reads the committed CRE fixture replay; collector history is not yet wired into the public API store.
 
+## Sepolia event indexer
+
+The indexer verifies Sepolia chain ID, waits for the configured number of confirmations, and stores each RefrainLedger event with its transaction and log position. It resumes from its database cursor. A transaction is applied atomically so reruns do not double-count scores.
+
+```powershell
+Set-Location apps\api
+..\..\.venv\Scripts\python.exe -m api.indexer --once
+```
+
+Omit `--once` to keep polling. The database read model receives confirmed ledger events, but public API pages still serve the committed fixture replay until the live database read path is enabled.
+
 ## CRE runner
 
 The runner reads the root `.env`, passes those settings to the CRE child process, and redacts environment values from archived logs. It does not pass the credentials file through the CRE CLI `-e` option.

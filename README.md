@@ -75,6 +75,17 @@ Requirements: Python 3.12, Node 20 or newer, PostgreSQL, and the CRE CLI for wor
 
 6. Open `http://127.0.0.1:3000`. The API currently serves the committed CRE fixture replay. It is labelled as replay and is not a captured Telegram archive.
 
+## Sepolia event indexer
+
+The API package includes a resumable indexer for confirmed `RefrainLedger` logs. It applies `VerdictFiled`, `PositionOpened`, `PositionSettled` and `ScoreUpdated` events to the Postgres ledger tables when a matching case exists. It verifies Sepolia chain ID and uses the start block and confirmation depth from the root `.env`.
+
+```powershell
+Set-Location apps\api
+..\..\.venv\Scripts\python.exe -m api.indexer --once
+```
+
+Run without `--once` to poll continuously. Keep the process supervised by the operator. The public API remains in committed fixture replay mode until its database read path is enabled; indexing alone does not change that mode.
+
 ## Telegram collection
 
 The owner must complete the interactive login locally. Do not send Telegram codes or two-step verification details in chat.
