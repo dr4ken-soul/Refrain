@@ -40,5 +40,17 @@
     "txHash": null,
     "block": null,
     "log": "cre-runs/settlement-dryrun.log"
+  },
+  {
+    "workflow": "settlement",
+    "mode": "dry-run",
+    "recordedAt": "2026-10-31T06:36:03Z",
+    "eventId": "aa5cfa20-4855-5c3e-83bd-a126c2869071",
+    "positionId": 1,
+    "bundleHash": "0x6335be86f811343a36eb8fbbbf1c195ed7fe22da3abf5115676df18bd830e2c0",
+    "txHash": null,
+    "log": "cre-runs/2026-10-31/20261031T063603Z-settlement-60e2d73f/simulation.log",
+    "bundlePath": "cre-runs/2026-10-31/20261031T063603Z-settlement-60e2d73f/bundle.json",
+    "status": "no-op"
   }
 ]
