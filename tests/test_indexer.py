@@ -3,11 +3,13 @@ from pathlib import Path
 
 from eth_abi import encode
 from eth_hash.auto import keccak
+import httpx
+import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'apps' / 'api'))
 
-from api.indexer import decode_log
+from api.indexer import decode_log, make_event_loop, rpc, should_wait_after_range
 
 
 def topic(signature):
@@ -83,3 +85,33 @@ def test_decode_settlement_signed_pnl_and_score_update():
 
 def test_unknown_contract_events_are_ignored():
     assert decode_log({'topics': ['0x' + '00' * 32], 'data': '0x'}) is None
+
+
+def test_rpc_http_errors_do_not_include_the_credential_url():
+    secret_url = 'https://rpc.example/private-api-key'
+
+    class FakeClient:
+        async def post(self, *_args, **_kwargs):
+            request = httpx.Request('POST', secret_url)
+            return httpx.Response(400, request=request)
+
+    import asyncio
+    with pytest.raises(RuntimeError) as error:
+        asyncio.run(rpc(FakeClient(), 'eth_getLogs', []))
+    assert '400' in str(error.value)
+    assert secret_url not in str(error.value)
+
+
+def test_backfill_skips_poll_delay_between_ranges_but_waits_when_caught_up():
+    assert should_wait_after_range('indexed', backfill=False)
+    assert not should_wait_after_range('indexed', backfill=True)
+    assert should_wait_after_range('caught_up', backfill=True)
+
+
+def test_indexer_uses_windows_compatible_selector_loop():
+    loop = make_event_loop()
+    try:
+        import asyncio
+        assert isinstance(loop, asyncio.SelectorEventLoop)
+    finally:
+        loop.close()

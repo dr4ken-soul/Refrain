@@ -10,6 +10,7 @@ from decimal import Decimal
 import json
 import os
 from pathlib import Path
+import selectors
 from uuid import NAMESPACE_URL, uuid5
 
 import httpx
@@ -140,11 +141,18 @@ def _price(value):
 
 
 async def rpc(client, method, params):
-    response = await client.post('/', json={
-        'jsonrpc': '2.0', 'id': 1, 'method': method, 'params': params,
-    })
-    response.raise_for_status()
-    body = response.json()
+    try:
+        response = await client.post('/', json={
+            'jsonrpc': '2.0', 'id': 1, 'method': method, 'params': params,
+        })
+    except httpx.HTTPError as error:
+        raise RuntimeError(f'RPC transport failed ({type(error).__name__}).') from None
+    if response.status_code >= 400:
+        raise RuntimeError(f'RPC returned HTTP status {response.status_code}.')
+    try:
+        body = response.json()
+    except ValueError:
+        raise RuntimeError('RPC returned a non-JSON response.') from None
     if body.get('error'):
         raise RuntimeError(f'RPC request failed: {body["error"].get("code", "unknown")}')
     return body.get('result')
@@ -177,12 +185,21 @@ class LedgerIndexer:
             return {'fromBlock': start, 'toBlock': None, 'events': 0, 'status': 'caught_up'}
         end = min(confirmed, start + self.config['batch_blocks'] - 1)
         topic_list = list(EVENTS)
-        logs = await rpc(self.client, 'eth_getLogs', [{
-            'address': self.config['address'],
-            'fromBlock': hex(start),
-            'toBlock': hex(end),
-            'topics': [topic_list],
-        }]) or []
+        while True:
+            try:
+                logs = await rpc(self.client, 'eth_getLogs', [{
+                    'address': self.config['address'],
+                    'fromBlock': hex(start),
+                    'toBlock': hex(end),
+                    'topics': [topic_list],
+                }]) or []
+                break
+            except RuntimeError as error:
+                if 'HTTP status 400' not in str(error) or end <= start:
+                    raise
+                end = start + max(0, (end - start) // 2)
+                self.config['batch_blocks'] = min(
+                    self.config['batch_blocks'], end - start + 1)
         logs.sort(key=lambda row: (int(row['blockNumber'], 16), int(row['transactionIndex'], 16), int(row['logIndex'], 16)))
         timestamps = {}
         for log in logs:
@@ -342,9 +359,14 @@ class LedgerIndexer:
             ''', (source['id'], score, int(reason == 'target'), int(reason == 'stop'), int(reason == 'expiry')))
 
 
+def should_wait_after_range(status, backfill):
+    return not backfill or status == 'caught_up'
+
+
 async def main():
     parser = argparse.ArgumentParser(description='Index confirmed RefrainLedger events on Sepolia.')
     parser.add_argument('--once', action='store_true', help='Index one confirmed block range and exit.')
+    parser.add_argument('--backfill', action='store_true', help='Catch up to the confirmed chain head without polling delays.')
     args = parser.parse_args()
     config = load_config()
     await initialize(type('Settings', (), {'database_url': config['database_url']})())
@@ -364,17 +386,24 @@ async def main():
                 if args.once:
                     raise
                 print(f'Indexer pass failed ({type(error).__name__}). Confirmed cursor was preserved.', flush=True)
-            if args.once:
+                await asyncio.sleep(config['poll_seconds'])
+                continue
+            if args.once or (args.backfill and result['status'] == 'caught_up'):
                 break
-            await asyncio.sleep(config['poll_seconds'])
+            if should_wait_after_range(result['status'], args.backfill):
+                await asyncio.sleep(config['poll_seconds'])
     finally:
         await client.aclose()
         await connection.close()
 
 
+def make_event_loop():
+    return asyncio.SelectorEventLoop(selectors.SelectSelector())
+
+
 if __name__ == '__main__':
     try:
-        asyncio.run(main())
+        asyncio.run(main(), loop_factory=make_event_loop)
     except KeyboardInterrupt:
         print('Indexer stopped. Confirmed events and the block cursor were preserved.')
     except Exception as error:

@@ -105,7 +105,7 @@ def safe_log(text: str, environment: dict[str, str]) -> str:
 def transaction_hash(text: str) -> str | None:
     candidates = []
     for line in text.splitlines():
-        if re.search(r'(?i)transaction|tx\s*hash|txhash|transactionid', line):
+        if re.search(r'(?i)transaction|tx\s*hash|txhash|transactionid|\btx\s*[:=]', line):
             candidates.extend(re.findall(r'0x[0-9a-fA-F]{64}', line))
     return candidates[-1] if candidates else None
 
@@ -200,13 +200,18 @@ def run_workflow(
         (root / relative_directory / 'tx.txt').write_text(tx_hash + '\n', encoding='utf-8')
 
     record = {
+        'runId': run_id,
         'workflow': workflow,
         'mode': mode,
+        'outcome': 'success' if exit_code == 0 and tx_hash else 'no-op' if exit_code == 0 else 'failed',
+        'decision': None,
+        'reasonCode': None,
         'recordedAt': started.strftime('%Y-%m-%dT%H:%M:%SZ'),
         'eventId': event_id,
         'positionId': position_id,
         'bundleHash': bundle_hash,
         'txHash': tx_hash,
+        'block': None,
         'log': log_path.as_posix(),
         'bundlePath': bundle_path.as_posix() if bundle_path else None,
         'status': 'success' if exit_code == 0 and tx_hash else 'no-op' if exit_code == 0 else 'failed',

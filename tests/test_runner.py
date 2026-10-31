@@ -38,6 +38,12 @@ def test_transaction_hash_requires_a_transaction_label():
     assert transaction_hash('Transaction hash: ' + tx) == tx
 
 
+def test_transaction_hash_reads_cre_filed_settlement_tx_field():
+    tx = '0x' + 'ab' * 32
+    output = f'Filed settlement. positionId=1 exitReason=2 exitPrice=17560000 pnlUnits=74 tx={tx}'
+    assert transaction_hash(output) == tx
+
+
 def test_filed_case_hashes_only_include_confirmed_records():
     snapshot = {
         'approved': {'caseHash': '0xabc', 'verdictTx': '0x123'},
