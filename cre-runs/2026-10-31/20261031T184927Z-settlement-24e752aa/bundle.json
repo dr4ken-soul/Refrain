@@ -1,0 +1,306 @@
+{
+  "asset": {
+    "assetKey": "solana:EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm",
+    "chain": "solana",
+    "contractAddress": "EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm",
+    "pair": null,
+    "ticker": "WIF"
+  },
+  "bundleHash": "0x6335be86f811343a36eb8fbbbf1c195ed7fe22da3abf5115676df18bd830e2c0",
+  "caseKind": "convergence",
+  "evaluatedAt": "2026-10-29T09:45:00Z",
+  "eventId": "aa5cfa20-4855-5c3e-83bd-a126c2869071",
+  "evidence": {
+    "canonicalOrder": "posted_at ascending, then telegram_message_id ascending",
+    "completeCallOrder": [
+      "7e2033f4-598a-5ce9-985a-5fdbdef0c793",
+      "05d33a24-044e-54eb-87f3-cff6dbcf6dbf",
+      "5661bb4d-7ba8-59e0-b375-841763ca888e"
+    ],
+    "contributingCalls": [
+      {
+        "callId": "7e2033f4-598a-5ce9-985a-5fdbdef0c793",
+        "conviction": 70,
+        "direction": "long",
+        "messageId": 1,
+        "narrativeTags": [
+          "other"
+        ],
+        "sourceHash": "0xbafde89c041e1756082b933aaf16cad8e65dec48de748479352f657e89dd6da5",
+        "span": [
+          0,
+          82
+        ],
+        "timestamp": "2026-10-29T08:00:00Z"
+      },
+      {
+        "callId": "05d33a24-044e-54eb-87f3-cff6dbcf6dbf",
+        "conviction": 65,
+        "direction": "long",
+        "messageId": 2,
+        "narrativeTags": [
+          "other"
+        ],
+        "sourceHash": "0x05d17100b346c29d6760a0fdedcf8623945b53a26f7f811ae70835610f9e6797",
+        "span": [
+          0,
+          70
+        ],
+        "timestamp": "2026-10-29T08:47:00Z"
+      },
+      {
+        "callId": "5661bb4d-7ba8-59e0-b375-841763ca888e",
+        "conviction": 80,
+        "direction": "long",
+        "messageId": 3,
+        "narrativeTags": [
+          "other"
+        ],
+        "sourceHash": "0x16fea16d024d1e8be41db5981759f00db228e275cb6164d9ea81bc5ad853d0f7",
+        "span": [
+          0,
+          61
+        ],
+        "timestamp": "2026-10-29T09:15:00Z"
+      }
+    ],
+    "entryObservations": [
+      {
+        "assetKey": "solana:EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm",
+        "kind": "dexscreener",
+        "liquidityUsdCents": 722880,
+        "locator": "solana:4mMDQ5kG9fFrBSQeedErsUoTBhY5KKnsKWGvenXRTwSy",
+        "observedAt": "2026-10-29T21:11:02.391474Z",
+        "price": "0.1691"
+      },
+      {
+        "assetKey": "solana:EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm",
+        "kind": "geckoterminal",
+        "liquidityUsdCents": 508448860,
+        "locator": "solana:EP2ib6dYdEeqD8MfE2ezHCxX3kP3K2eLKkirfPm5eyMx",
+        "observedAt": "2026-10-29T21:11:03.070436Z",
+        "price": "0.1681709899"
+      }
+    ],
+    "firstIndependentCallBySource": {
+      "0x05d17100b346c29d6760a0fdedcf8623945b53a26f7f811ae70835610f9e6797": "05d33a24-044e-54eb-87f3-cff6dbcf6dbf",
+      "0x16fea16d024d1e8be41db5981759f00db228e275cb6164d9ea81bc5ad853d0f7": "5661bb4d-7ba8-59e0-b375-841763ca888e",
+      "0xbafde89c041e1756082b933aaf16cad8e65dec48de748479352f657e89dd6da5": "7e2033f4-598a-5ce9-985a-5fdbdef0c793"
+    },
+    "independenceWeights": [
+      {
+        "sharedMarkers": [],
+        "sourceHash": "0xbafde89c041e1756082b933aaf16cad8e65dec48de748479352f657e89dd6da5",
+        "weightBps": 10000
+      },
+      {
+        "sharedMarkers": [],
+        "sourceHash": "0x05d17100b346c29d6760a0fdedcf8623945b53a26f7f811ae70835610f9e6797",
+        "weightBps": 10000
+      },
+      {
+        "sharedMarkers": [],
+        "sourceHash": "0x16fea16d024d1e8be41db5981759f00db228e275cb6164d9ea81bc5ad853d0f7",
+        "weightBps": 10000
+      }
+    ],
+    "liquidity": [
+      {
+        "assetKey": "solana:EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm",
+        "kind": "dexscreener",
+        "liquidityUsdCents": 722880,
+        "locator": "solana:4mMDQ5kG9fFrBSQeedErsUoTBhY5KKnsKWGvenXRTwSy",
+        "observedAt": "2026-10-29T21:11:02.391474Z",
+        "price": "0.1691"
+      },
+      {
+        "assetKey": "solana:EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm",
+        "kind": "geckoterminal",
+        "liquidityUsdCents": 508448860,
+        "locator": "solana:EP2ib6dYdEeqD8MfE2ezHCxX3kP3K2eLKkirfPm5eyMx",
+        "observedAt": "2026-10-29T21:11:03.070436Z",
+        "price": "0.1681709899"
+      }
+    ],
+    "posts": [
+      {
+        "contentHash": "content-22222222-2",
+        "editedAt": null,
+        "forwardedFrom": null,
+        "messageId": 2,
+        "sourceHash": "0x05d17100b346c29d6760a0fdedcf8623945b53a26f7f811ae70835610f9e6797",
+        "text": "WIF looks ready here. Entry 0.18 stop 0.15 target 0.30. Chart coiling.",
+        "urls": []
+      },
+      {
+        "contentHash": "content-33333333-3",
+        "editedAt": null,
+        "forwardedFrom": null,
+        "messageId": 3,
+        "sourceHash": "0x16fea16d024d1e8be41db5981759f00db228e275cb6164d9ea81bc5ad853d0f7",
+        "text": "Bought WIF. Entry 0.18. Invalidation 0.15. First target 0.30.",
+        "urls": []
+      },
+      {
+        "contentHash": "content-11111111-1",
+        "editedAt": null,
+        "forwardedFrom": null,
+        "messageId": 1,
+        "sourceHash": "0xbafde89c041e1756082b933aaf16cad8e65dec48de748479352f657e89dd6da5",
+        "text": "WIF SOL long. Entry 0.18, SL 0.15, TP1 0.30. Size before the next legs add volume.",
+        "urls": []
+      }
+    ],
+    "promotion": [
+      {
+        "filterReason": null,
+        "isAdvertisement": false,
+        "messageId": 1,
+        "referralMarkers": [],
+        "scheduledCall": null,
+        "sourceHash": "0xbafde89c041e1756082b933aaf16cad8e65dec48de748479352f657e89dd6da5"
+      },
+      {
+        "filterReason": null,
+        "isAdvertisement": false,
+        "messageId": 2,
+        "referralMarkers": [],
+        "scheduledCall": null,
+        "sourceHash": "0x05d17100b346c29d6760a0fdedcf8623945b53a26f7f811ae70835610f9e6797"
+      },
+      {
+        "filterReason": null,
+        "isAdvertisement": false,
+        "messageId": 3,
+        "referralMarkers": [],
+        "scheduledCall": null,
+        "sourceHash": "0x16fea16d024d1e8be41db5981759f00db228e275cb6164d9ea81bc5ad853d0f7"
+      }
+    ],
+    "reliability": [
+      {
+        "block": null,
+        "origin": "neutral",
+        "scoreHundredths": 5000,
+        "sourceHash": "0x05d17100b346c29d6760a0fdedcf8623945b53a26f7f811ae70835610f9e6797"
+      },
+      {
+        "block": null,
+        "origin": "neutral",
+        "scoreHundredths": 5000,
+        "sourceHash": "0x16fea16d024d1e8be41db5981759f00db228e275cb6164d9ea81bc5ad853d0f7"
+      },
+      {
+        "block": null,
+        "origin": "neutral",
+        "scoreHundredths": 5000,
+        "sourceHash": "0xbafde89c041e1756082b933aaf16cad8e65dec48de748479352f657e89dd6da5"
+      }
+    ],
+    "ruleParameters": {
+      "rulesetHash": "0x3c029aacef517046031e44c9c92af419254cf38269ba6eff12c5bac9ed14e52a",
+      "values": {
+        "coordination": {
+          "scheduledCallInsideWindowRejects": true
+        },
+        "independence": {
+          "forwardIndependentVoices": 0,
+          "neutralWeightBps": 10000,
+          "oneVoicePerChannelPerWindow": true,
+          "sharedReferralMarkerWeightBps": 5000
+        },
+        "independentVoicesRequired": 3,
+        "liquidity": {
+          "contractAssetFloorUsd": 5000,
+          "listedPairExempt": true
+        },
+        "paperSize": {
+          "baseUsd": 100,
+          "capUsd": 500,
+          "formula": "min(capUsd, baseUsd * weightedConviction / referenceConviction), rounded to whole USDC",
+          "referenceConviction": 55
+        },
+        "priceAgreement": {
+          "contractAssetMaxDeviationBps": 300,
+          "listedPairMaxDeviationBps": 50
+        },
+        "promotionVeto": {
+          "enabled": true,
+          "trigger": "promotional_posts_at_least_independent_voices"
+        },
+        "weightedConvictionFloor": 55,
+        "windows": {
+          "contractAssetHours": 24,
+          "listedPairHours": 6
+        }
+      }
+    },
+    "sharedReferralMarkers": []
+  },
+  "independentVoiceCount": 3,
+  "narrativeKey": null,
+  "pricePlan": {
+    "check": {
+      "kind": "geckoterminal",
+      "locator": "solana:EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm"
+    },
+    "maxDeviationBps": 300,
+    "primary": {
+      "kind": "dexscreener",
+      "locator": "solana:EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm"
+    }
+  },
+  "proposedTerms": {
+    "direction": "long",
+    "expiresAt": "2026-10-31T09:15:00Z",
+    "hasStructuredLevels": true,
+    "sizeUnits": null,
+    "stopBps": null,
+    "stopPrice": "0.15",
+    "targetBps": null,
+    "targetPrice": "0.30"
+  },
+  "rulesetHash": "0x3c029aacef517046031e44c9c92af419254cf38269ba6eff12c5bac9ed14e52a",
+  "rulesetVersion": 1,
+  "timingSpreadSeconds": 4500,
+  "voices": [
+    {
+      "callIds": [
+        "7e2033f4-598a-5ce9-985a-5fdbdef0c793"
+      ],
+      "conviction": 70,
+      "copied": false,
+      "direction": "long",
+      "firstCallAt": "2026-10-29T08:00:00Z",
+      "sourceHash": "0xbafde89c041e1756082b933aaf16cad8e65dec48de748479352f657e89dd6da5",
+      "weightBps": 10000
+    },
+    {
+      "callIds": [
+        "05d33a24-044e-54eb-87f3-cff6dbcf6dbf"
+      ],
+      "conviction": 65,
+      "copied": false,
+      "direction": "long",
+      "firstCallAt": "2026-10-29T08:47:00Z",
+      "sourceHash": "0x05d17100b346c29d6760a0fdedcf8623945b53a26f7f811ae70835610f9e6797",
+      "weightBps": 10000
+    },
+    {
+      "callIds": [
+        "5661bb4d-7ba8-59e0-b375-841763ca888e"
+      ],
+      "conviction": 80,
+      "copied": false,
+      "direction": "long",
+      "firstCallAt": "2026-10-29T09:15:00Z",
+      "sourceHash": "0x16fea16d024d1e8be41db5981759f00db228e275cb6164d9ea81bc5ad853d0f7",
+      "weightBps": 10000
+    }
+  ],
+  "weightedConviction": "71.67",
+  "window": {
+    "closedAt": "2026-10-29T09:15:00Z",
+    "startedAt": "2026-10-29T08:00:00Z"
+  }
+}

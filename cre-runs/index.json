@@ -52,5 +52,34 @@
     "log": "cre-runs/2026-10-31/20261031T063603Z-settlement-60e2d73f/simulation.log",
     "bundlePath": "cre-runs/2026-10-31/20261031T063603Z-settlement-60e2d73f/bundle.json",
     "status": "no-op"
+  },
+  {
+    "workflow": "settlement",
+    "mode": "dry-run",
+    "recordedAt": "2026-10-31T18:46:38Z",
+    "eventId": "aa5cfa20-4855-5c3e-83bd-a126c2869071",
+    "positionId": 1,
+    "bundleHash": "0x6335be86f811343a36eb8fbbbf1c195ed7fe22da3abf5115676df18bd830e2c0",
+    "txHash": null,
+    "log": "cre-runs/2026-10-31/20261031T184638Z-settlement-0363b6dc/simulation.log",
+    "bundlePath": "cre-runs/2026-10-31/20261031T184638Z-settlement-0363b6dc/bundle.json",
+    "status": "no-op"
+  },
+  {
+    "workflow": "settlement",
+    "mode": "broadcast",
+    "recordedAt": "2026-10-31T18:49:27Z",
+    "eventId": "aa5cfa20-4855-5c3e-83bd-a126c2869071",
+    "positionId": 1,
+    "bundleHash": "0x6335be86f811343a36eb8fbbbf1c195ed7fe22da3abf5115676df18bd830e2c0",
+    "txHash": "0x4f02999be4a9e1aa4cae464e81aa23656d1b683f9395b52828e888e4914c3aa2",
+    "log": "cre-runs/2026-10-31/20261031T184927Z-settlement-24e752aa/simulation.log",
+    "bundlePath": "cre-runs/2026-10-31/20261031T184927Z-settlement-24e752aa/bundle.json",
+    "status": "success",
+    "block": 12035735,
+    "runId": "20261031T184927Z-settlement-24e752aa",
+    "outcome": "success",
+    "decision": null,
+    "reasonCode": null
   }
 ]

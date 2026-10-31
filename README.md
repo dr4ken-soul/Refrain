@@ -13,12 +13,16 @@ Built for BLI Legal Tech Hackathon 2, for the RYO-CHAN Autonomous Agents bounty 
 | RefrainLedger | [0x03d2011c624016F7A5A9D02318c2fdba31c63278, verified on Sepolia](https://eth-sepolia.blockscout.com/address/0x03d2011c624016F7A5A9D02318c2fdba31c63278#code) |
 | Approved verdict | [Sepolia transaction](https://eth-sepolia.blockscout.com/tx/0xb09a064bac186b444e0b0b43bddd364ac47853e94741abb9c0da8f5f37fe503f) |
 | Rejected verdict | [Sepolia transaction](https://eth-sepolia.blockscout.com/tx/0x656d4efd7b26f77f5b488ff58b59423a51311cdecd253aa8e1045387a1ce377c) |
-| Settlement transaction | Pending. Position 1 expires at 2026-10-31 09:15 UTC. |
-| Captured Telegram replay | Not frozen. The current public replay uses deterministic CRE test fixtures, not captured Telegram posts. |
+| Settlement transaction | [Sepolia transaction](https://eth-sepolia.blockscout.com/tx/0x4f02999be4a9e1aa4cae464e81aa23656d1b683f9395b52828e888e4914c3aa2), confirmed at block 12035735. |
+| Captured Telegram replay | [324 real public posts](seed/replay/posts.jsonl) from the 14 day backfill. One of eight watched channels had no posts in the window. |
 | Demo video | Not recorded |
 | DoraHacks Build | Not submitted |
 
-The interface and API are currently local replay builds. A public site, real captured Telegram replay and settlement filing remain required before this repository is submission-ready.
+The public API currently serves deterministic CRE fixture cases, while the real Telegram archive is frozen separately. The API is not yet wired to the live database, and the web app has not been deployed. A public site and the DoraHacks Build, including its video, remain outstanding before submission.
+
+The frozen Telegram archive contains 324 public posts. The deterministic pass classified 122 posts, while 202 remain pending language model extraction. It evaluated 37 candidates and approved none. The archived on-chain approval and rejection are deterministic CRE fixtures, not decisions made from the Telegram archive.
+
+There is a deployed score-baseline mismatch to keep visible: the contract initializes source scores at 0, while `APP_BLUEPRINT.md` describes 50.00 as neutral. The expiry filing moved three fixture contributor hashes from 0 to 1.25. Those hashes do not map to the eight audited Telegram sources, whose KOL index remains at 50.0 with zero tracked calls.
 
 ## System
 
@@ -84,7 +88,7 @@ Set-Location apps\api
 ..\..\.venv\Scripts\python.exe -m api.indexer --once
 ```
 
-Run without `--once` to poll continuously. Keep the process supervised by the operator. The public API remains in committed fixture replay mode until its database read path is enabled; indexing alone does not change that mode.
+Run without `--once` to poll continuously. For an initial catch-up, use `--backfill` to process confirmed ranges without the normal polling delay until the current head is indexed. Transient RPC failures still wait before retrying. Keep a continuous indexer supervised by the operator. The public API remains in committed fixture replay mode until its database read path is enabled; indexing alone does not change that mode.
 
 ## Telegram collection
 
@@ -115,7 +119,7 @@ A broadcast pass is explicit and verifies that the configured RPC reports Sepoli
 .\.venv\Scripts\python.exe .\scripts\run_cre_cycle.py --broadcast
 ```
 
-The runner archives each invoked workflow under `cre-runs/<date>/<run-id>/` and updates `cre-runs/index.json`. It skips fixture verdicts already filed on-chain. The current demo settlement broadcast is held until the position expiry at 2026-10-31 09:15 UTC.
+The runner archives each invoked workflow under `cre-runs/<date>/<run-id>/` and updates `cre-runs/index.json`. It skips fixture verdicts already filed on-chain. The example position has expired. Its confirmed settlement transaction and run log are recorded above and in `cre-runs/index.json`.
 
 CRE DON deployment requires Early Access. This project demonstrates simulation with broadcast to Sepolia and does not claim DON deployment.
 

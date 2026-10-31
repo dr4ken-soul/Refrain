@@ -22,12 +22,32 @@
       "sizeUnitsCents": "13000",
       "openedAt": 1793362800,
       "expiresAt": 1793438100,
-      "settled": false,
-      "exitReason": null,
-      "exitPrice1e8": null,
-      "pnlUnits": null,
+      "settled": true,
+      "exitReason": 2,
+      "exitPrice1e8": "17560000",
+      "pnlUnits": "74",
       "contributorsCommit": "0x2ec9fb40f52095b9c4d45d88c72001c0f91e51c2023c1296796c6b2c229d0594"
-    }
+    },
+    "settlementTx": "0x4f02999be4a9e1aa4cae464e81aa23656d1b683f9395b52828e888e4914c3aa2",
+    "settlementBlock": 12035735,
+    "settlementTime": "2026-10-31T18:50:24Z",
+    "scoreUpdates": [
+      {
+        "sourceHash": "0xbafde89c041e1756082b933aaf16cad8e65dec48de748479352f657e89dd6da5",
+        "delta": "125",
+        "newScore": "125"
+      },
+      {
+        "sourceHash": "0x05d17100b346c29d6760a0fdedcf8623945b53a26f7f811ae70835610f9e6797",
+        "delta": "125",
+        "newScore": "125"
+      },
+      {
+        "sourceHash": "0x16fea16d024d1e8be41db5981759f00db228e275cb6164d9ea81bc5ad853d0f7",
+        "delta": "125",
+        "newScore": "125"
+      }
+    ]
   },
   "rejected": {
     "eventId": "d5a88202-dd70-50f3-99ea-1ffc42bdab9b",

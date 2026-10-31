@@ -1,0 +1,40 @@
+Refrain settlement broadcast
+Started: 2026-10-31T18:49:27Z
+Command: cre workflow simulate ./settlement -T staging-settings --non-interactive --trigger-index 0 --broadcast
+
+✓ Workflow compiled
+✓ Simulation limits enabled
+  HTTP: req=120kb resp=250kb timeout=10s | ConfHTTP: req=125kb resp=500kb timeout=1m30s | Consensus obs=25kb | ChainWrite evm_report=50kb evm_gas=10000000 solana_report=265b solana_cu=300000 | WASM binary=100mb compressed=20mb
+  Binary hash: db9323453faaaa5626382c215d297b16644d1118a60853df0b89f654342c8c49
+  Config hash: a1061d4a53e67141241b1260f66e9d0e09d899b99a8bc6bf241b660dd117a36b
+2026-10-31T19:50:17Z [SIMULATION] Simulator Initialized
+
+2026-10-31T19:50:17Z [SIMULATION] Running trigger trigger=cron-trigger@1.0.0
+2026-10-31T19:50:18Z [USER LOG] Settlement run at 2026-10-31T18:50:18.187Z.
+2026-10-31T19:50:18Z [USER LOG] Oldest due position 1 for event aa5cfa20-4855-5c3e-83bd-a126c2869071.
+2026-10-31T19:50:18Z [USER LOG] Chain position 1: caseHash 0x6335be86f811343a36eb8fbbbf1c195ed7fe22da3abf5115676df18bd830e2c0 settled=false entry 17460000 stop 15000000 target 30000000 expiry 1793438100.
+2026-10-31T19:50:20Z [USER LOG] Fetched 14 closed outcome candles since entry.
+2026-10-31T19:50:21Z [USER LOG] Position expired at 1793438100; filing expiry at the current price.
+2026-10-31T19:50:21Z [USER LOG] Expiry step for source 0xbafde89c041e1756082b933aaf16cad8e65dec48de748479352f657e89dd6da5: score 0, delta 125.
+2026-10-31T19:50:21Z [USER LOG] Expiry step for source 0x05d17100b346c29d6760a0fdedcf8623945b53a26f7f811ae70835610f9e6797: score 0, delta 125.
+2026-10-31T19:50:21Z [USER LOG] Expiry step for source 0x16fea16d024d1e8be41db5981759f00db228e275cb6164d9ea81bc5ad853d0f7: score 0, delta 125.
+2026-10-31T19:50:21Z [USER LOG] Encoded settlement payload 0x0000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000002c000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000010bf1c0000000000000000000000000000000000000000000000000000000000000004a000000000000000000000000000000000000000000000000de41ba4fc9d91ad9000000000000000000000000000000000000000000000000000000006ae6386a000000000000000000000000000000000000000000000000000000000000012000000000000000000000000000000000000000000000000000000000000001a000000000000000000000000000000000000000000000000000000000000002200000000000000000000000000000000000000000000000000000000000000003bafde89c041e1756082b933aaf16cad8e65dec48de748479352f657e89dd6da505d17100b34 ...(truncated)
+2026-10-31T19:50:24Z [USER LOG] Filed settlement. positionId=1 exitReason=2 exitPrice=17560000 pnlUnits=74 tx=0x4f02999be4a9e1aa4cae464e81aa23656d1b683f9395b52828e888e4914c3aa2
+
+✓ Workflow Simulation Result:
+"positionId=1 exitReason=2 exitPrice=17560000 pnlUnits=74 tx=0x4f02999be4a9e1aa4cae464e81aa23656d1b683f9395b52828e888e4914c3aa2"
+
+2026-10-31T19:50:24Z [SIMULATION] Execution finished signal received
+2026-10-31T19:50:24Z [SIMULATION] Skipping WorkflowEngineV2
+
+╭──────────────────────────────────────────────────────╮
+│ Simulation complete! Ready to deploy your workflow?  │
+│                                                      │
+│ Run cre account access to request deployment access. │
+╰──────────────────────────────────────────────────────╯
+Initializing...
+Loading settings...
+Checking RPC connectivity...
+Compiling workflow...
+! Secret "CRE_BEARER_SECRET" uses itself as the env var name - this is fragile and may cause confusion. Consider using a distinct env var name (e.g. "CRE_CRE_BEARER_SECRET").
+Exit code: 0

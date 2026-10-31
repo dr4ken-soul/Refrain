@@ -34,7 +34,7 @@ def test_public_replay_surfaces_have_chain_backed_shape(api_client):
     assert metrics['callsParsed'] > 0
     assert metrics['paperPositionsOpened'] == 1
     assert metrics['tradesRejected'] == 1
-    assert metrics['positionsSettled'] == 0
+    assert metrics['positionsSettled'] == 1
 
 
 def test_case_and_ledger_endpoints_reference_the_frozen_cases(api_client):
@@ -52,8 +52,30 @@ def test_case_and_ledger_endpoints_reference_the_frozen_cases(api_client):
 
     positions = api_client.get('/api/ledger/positions').json()['positions']
     rejections = api_client.get('/api/ledger/rejections').json()['rejections']
-    assert len(positions) == 1 and positions[0]['status'] == 'open'
+    assert len(positions) == 1 and positions[0]['status'] == 'settled'
+    assert positions[0]['exitReason'] == 'expiry'
+    assert positions[0]['exitPrice'] == '0.1756'
+    assert positions[0]['pnlUnits'] == 74
+    assert positions[0]['settleTxHash'].startswith('0x')
     assert len(rejections) == 1 and rejections[0]['verdictTx'].startswith('0x')
+
+
+def test_settlement_snapshot_exposes_confirmed_score_updates(api_client):
+    approved = next(
+        row for row in api_client.get('/api/events').json()['events']
+        if row['decision'] == 'approved'
+    )
+    detail = api_client.get(f"/api/events/{approved['eventId']}").json()
+    assert detail['event']['settlement']['block'] == 12035735
+    assert detail['event']['settlement']['exitReason'] == 'expiry'
+    assert detail['event']['replay']['settlementTx'].startswith('0x')
+    assert len(detail['event']['scoreEffects']) == 3
+    assert all(row['delta'] == 1.25 for row in detail['event']['scoreEffects'])
+
+    runs = api_client.get('/api/cre/runs').json()['runs']
+    settlement_run = next(row for row in runs if row.get('txHash') == detail['event']['replay']['settlementTx'])
+    assert settlement_run['outcome'] == 'success'
+    assert settlement_run['block'] == 12035735
 
 
 def test_calls_cursor_pagination_and_invalid_cursor(api_client):

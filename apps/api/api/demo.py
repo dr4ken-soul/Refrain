@@ -252,13 +252,34 @@ def load_replay():
                 'sizeUsd': int(raw['sizeUnitsCents']) / 100,
                 'openedAt': epoch_iso(raw['openedAt']),
                 'expiresAt': epoch_iso(raw['expiresAt']),
-                'exitPrice': None,
-                'exitReason': None,
-                'pnlUnits': None,
+                'exitPrice': (
+                    f"{int(raw['exitPrice1e8']) / 1e8:.8f}".rstrip('0').rstrip('.')
+                    if raw.get('exitPrice1e8') is not None else None
+                ),
+                'exitReason': {0: 'target', 1: 'stop', 2: 'expiry'}.get(raw.get('exitReason')),
+                'pnlUnits': int(raw['pnlUnits']) if raw.get('pnlUnits') is not None else None,
                 'contributorsCommit': raw['contributorsCommit'],
                 'openTxHash': chain.get('verdictTx'),
-                'settleTxHash': None,
+                'settleTxHash': chain.get('settlementTx'),
             }
+
+        settlement = None
+        score_effects = []
+        if (chain.get('position') or {}).get('settled'):
+            settlement = {
+                'positionId': chain['position']['positionId'],
+                'exitReason': position['exitReason'],
+                'exitPrice': position['exitPrice'],
+                'pnlUnits': position['pnlUnits'],
+                'txHash': chain.get('settlementTx'),
+                'block': chain.get('settlementBlock'),
+                'settledAt': chain.get('settlementTime'),
+            }
+            score_effects = [{
+                'sourceHash': row['sourceHash'],
+                'delta': int(row['delta']) / 100,
+                'newScore': int(row['newScore']) / 100,
+            } for row in chain.get('scoreUpdates', [])]
 
         cases.append({
             'eventId': bundle['eventId'],
@@ -294,15 +315,15 @@ def load_replay():
                 'filedAt': chain.get('verdictTime'),
                 'scheduledAt': epoch_iso(chain['scheduledAt']) if chain.get('scheduledAt') else None,
             },
-            'settlement': None,
-            'scoreEffects': [],
+            'settlement': settlement,
+            'scoreEffects': score_effects,
             'replay': {
                 'bundleHash': bundle.get('bundleHash'),
                 'rulesetHash': bundle.get('rulesetHash'),
                 'rulesetVersion': bundle.get('rulesetVersion'),
                 'caseHash': chain.get('caseHash'),
                 'verdictTx': chain.get('verdictTx'),
-                'settlementTx': None,
+                'settlementTx': chain.get('settlementTx'),
             },
             'bundle': bundle,
         })
